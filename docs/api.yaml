@@ -1,0 +1,106 @@
+openapi: "3.0.3"
+info:
+  title: GenAI in Business API
+  description: 生成AI実業務適用プロジェクトの API 仕様
+  version: "1.0.0"
+
+servers:
+  - url: http://localhost:8000
+    description: ローカル開発環境
+  - url: https://api.example.com
+    description: 本番環境
+
+paths:
+  /users:
+    get:
+      summary: ユーザー一覧取得
+      operationId: listUsers
+      tags:
+        - users
+      responses:
+        "200":
+          description: ユーザー一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+    post:
+      summary: ユーザー作成
+      operationId: createUser
+      tags:
+        - users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreate"
+      responses:
+        "201":
+          description: 作成されたユーザー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /users/{userId}:
+    get:
+      summary: ユーザー取得
+      operationId: getUser
+      tags:
+        - users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ユーザー情報
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: ユーザーが見つかりません
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - name
+        - email
+      properties:
+        id:
+          type: string
+          description: ユーザーID
+        name:
+          type: string
+          description: ユーザー名
+        email:
+          type: string
+          format: email
+          description: メールアドレス
+        createdAt:
+          type: string
+          format: date-time
+          description: 作成日時
+
+    UserCreate:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        name:
+          type: string
+          description: ユーザー名
+        email:
+          type: string
+          format: email
+          description: メールアドレス
