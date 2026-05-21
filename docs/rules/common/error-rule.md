@@ -77,6 +77,7 @@ NullReferenceException
 
 - エラーコードで分岐する
 - メッセージ文字列比較禁止
+- console.errorのみで終了禁止
 
 ---
 
@@ -102,8 +103,9 @@ NullReferenceException
 
 # 禁止事項
 
-- try-catch握り潰し
-- console.logのみ
-- printのみ
-- stacktrace返却
-- success=false + HTTP200
+- 例外を try-catch で補足したまま記録も再送出もせずに握り潰すこと
+- console.log出力のみで動作確認やエラー処理を完了させること
+- console.error出力のみでユーザ通知やエラー処理を完了させること
+- print出力のみでエラー確認やエラー処理を完了させること
+- stacktraceをAPIレスポンスや画面へ返却すること
+- エラー応答で success=false を返しながら HTTPステータスコード 200 を返すこと

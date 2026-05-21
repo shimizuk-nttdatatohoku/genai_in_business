@@ -20,32 +20,49 @@
 
 ---
 
+# 記載ルール
+
+- OK / NG の例は、各ルールの対象に合わせて同一粒度で記載する
+- ファイル名のルールではファイル名を例示し、関数名のルールでは関数名を例示する
+- ファイル名と関数名の両方にルールがある場合は、必要に応じて両方の例を記載する
+
+---
+
 # React / TypeScript
 
 ## Component
 
-- PascalCase を使用する
+- Component のファイル名とコンポーネント名は PascalCase を使用する
 
 ### OK
 
 UserList.tsx  
-LoginPage.tsx
+LoginPage.tsx  
+UserList
 
 ### NG
 
 userlist.tsx  
-login_page.tsx
+login_page.tsx  
+userList
 
 ---
 
 ## hooks
 
-- `use` prefix を使用する
+- hooks のファイル名と関数名は `use` prefix を付け、camelCase で命名する
 
 ### OK
 
 useAuth.ts  
-useUsers.ts
+useUsers.ts  
+useUserList()
+
+### NG
+
+auth.ts  
+UserListHook.ts  
+getUserList()
 
 ---
 
@@ -57,6 +74,11 @@ useUsers.ts
 
 userName  
 isLoading
+
+### NG
+
+UserName  
+user_name
 
 ---
 
@@ -74,6 +96,27 @@ isDeleted
 hasError  
 canEdit
 
+### NG
+
+deletedFlag  
+errorExists  
+editable
+
+---
+
+## Props
+
+- interface名は `[Component名]Props` を使用する
+
+### OK
+
+UserListProps
+
+### NG
+
+Props  
+userListProps
+
 ---
 
 # Python
@@ -87,6 +130,11 @@ canEdit
 user_service.py  
 auth_controller.py
 
+### NG
+
+UserService.py  
+authController.py
+
 ---
 
 ## Class名
@@ -97,6 +145,11 @@ auth_controller.py
 
 UserService  
 AuthRepository
+
+### NG
+
+userService  
+auth_repository
 
 ---
 
@@ -109,6 +162,11 @@ AuthRepository
 get_user  
 create_order
 
+### NG
+
+getUser  
+CreateOrder
+
 ---
 
 ## 定数
@@ -118,6 +176,11 @@ create_order
 ### OK
 
 MAX_RETRY_COUNT
+
+### NG
+
+max_retry_count  
+MaxRetryCount
 
 ---
 
@@ -132,10 +195,12 @@ MAX_RETRY_COUNT
 ### OK
 
 /api/v1/users
+/api/v1/order-items
 
 ### NG
 
 /api/v1/getUsers
+/api/v1/user_list
 
 ---
 
@@ -151,6 +216,11 @@ MAX_RETRY_COUNT
 users  
 order_items
 
+### NG
+
+user  
+OrderItems
+
 ---
 
 ## 項目名
@@ -161,6 +231,11 @@ order_items
 
 user_name  
 created_at
+
+### NG
+
+userName  
+CreatedAt
 
 ---
 
@@ -173,6 +248,11 @@ created_at
 created_at  
 updated_at
 
+### NG
+
+created_date  
+updateTime
+
 ---
 
 ## ID項目
@@ -183,6 +263,11 @@ updated_at
 
 user_id  
 order_id
+
+### NG
+
+userId  
+id
 
 ---
 
@@ -197,6 +282,11 @@ order_id
 
 正常系_ログイン成功  
 異常系_パスワード未入力
+
+### NG
+
+login_success  
+パスワード未入力
 
 ---
 
