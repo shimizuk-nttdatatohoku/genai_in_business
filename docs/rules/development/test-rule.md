@@ -19,6 +19,28 @@
 
 ---
 
+# Frontend Unit Test
+
+- Vitestを使用する
+- React Testing Libraryを使用する
+- すべての UI コンポーネントにテストを作成する
+- 実装詳細ではなく、ユーザー操作と画面結果を基準にテストを書く
+- screen、fireEvent、userEventを活用する
+- ユーザ向けメッセージや画面表示を検証する
+- console確認やstacktrace出力に依存しない
+
+---
+
+# Backend Unit Test
+
+- pytestを使用する
+- Router単位で試験する
+- Service単位で試験する
+- AAAパターンを使用する
+- fixtureを利用する
+
+---
+
 # テスト観点
 
 以下観点を考慮する
@@ -38,14 +60,7 @@
 
 - PageObjectModelを使用する
 - locator直書きを最小化する
-- 固定sleep禁止
-
----
-
-# pytest
-
-- AAAパターンを使用する
-- fixtureを利用する
+- `sleep()` や固定時間待機に依存せず、表示条件や完了条件を待機する
 
 ---
 
@@ -53,6 +68,13 @@
 
 - 外部APIはモック化する
 - DB直接更新を避ける
+- フロントエンドの API モックには MSW を使用する
+
+---
+
+# Backend Integration Test
+
+- ローカル DynamoDB を使用した API エンドポイントテストを行う
 
 ---
 
@@ -60,6 +82,7 @@
 
 - テスト間依存禁止
 - ハードコード最小化
+- `docs/rules/common/implementation-rule.md` を参照する
 
 ---
 
@@ -73,8 +96,7 @@
 
 # 禁止事項
 
-- sleep固定待ち
+- `sleep()` や固定ミリ秒待機でテストを成立させること
 - テスト順依存
 - console確認前提
-- localhost固定
 - テスト間状態共有
