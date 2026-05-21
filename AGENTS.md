@@ -1,4 +1,4 @@
-# AGENT.md — 組合員情報・配布金管理 Web アプリ
+# AGENTS.md — 組合員情報・配布金管理 Web アプリ
 
 > このファイルは GitHub Copilot（およびその他の AI コーディングアシスタント）が
 > プロジェクトの文脈・規約・ワークフローを理解するための指示書です。
@@ -91,7 +91,7 @@ python infra/scripts/create_local_tables.py
 ```
 
 ### 環境変数
-`.env.example` をコピーして `.env.local`（フロント）と `.env`（バックエンド）を作成してください。
+`.env.example` をコピーして `.env.local`（フロント）と `.env`（バックエンド）を作成する。
 **実際のシークレットや AWS キーを `.env` ファイルにハードコードしないこと。**
 
 ```
@@ -120,31 +120,21 @@ cd backend && pytest --cov=app --cov-report=term-missing
 ## コーディング規約（Code Style）
 ### 共通
 - コードコメント・変数名・関数名はすべて **英語**
-- ユーザー向けのメッセージ・ラベルは **日本語**
-- 命名規則は、docs\rules\common\naming-rule.mdの記載を遵守する。
+- ユーザ向けのメッセージ・ラベルは **日本語**
+- 命名規則は、docs\rules\common\naming-rule.md を正本とする。
+- 環境依存値や固定URLの扱いは、docs\rules\common\implementation-rule.md を正本とする。
 
 ### TypeScript / React
-- `shared/types/` の型定義を積極的に再利用してください
-- 関数コンポーネントを使用し、型定義を必ず付けてください
-- ESLint / Prettier の設定に従ってください
-- docs\rules\development\frontend-rule.mdの記載を遵守する。
+- TypeScript / React の実装規約は、docs\rules\development\frontend-rule.md を正本とする。
 
 ### Python
-- 型ヒント (Type Hints) を必ず使用してください
-- docstring を関数・クラスに記述してください
-- PEP 8 に準拠してください
-- docs\rules\development\backend-rule.mdの記載を遵守する。
+- Python の実装規約は、docs\rules\development\backend-rule.md を正本とする。
 
 ### Lambda
 - ハンドラ関数は `app/handlers/` に集約する
 - ハンドラ関数のシグネチャ: `async def handler(event: dict, context: LambdaContext) -> dict`
 - 関数の実行時間制限は **900 秒** を想定（タイムアウト設定に注意）
-- 環境変数経由で設定値を取得し、ハードコードを避ける
-- エラーハンドリングは適切な HTTP ステータスコードを返す
-- ログ出力には CloudWatch Logs を使用し、個人情報をマスキングする
-- API Gateway との統合を想定し、リクエスト/レスポンス形式は JSON とする
-- コールドスタート対策: グローバルスコープの処理は最小限にする
-- docs\rules\development\serverless-rule.md の記載を遵守する
+- Lambda の実装規約は、docs\rules\development\serverless-rule.md を正本とする。
 
 ---
 
@@ -153,9 +143,7 @@ cd backend && pytest --cov=app --cov-report=term-missing
 ### フロントエンド
 #### React Testing Library（ユニット・コンポーネントテスト）
 
-- すべての UI コンポーネントにテストを作成する
-- ユーザーの操作視点でテストを書く（実装の詳細に依存しない）
-- API モックには **MSW (Mock Service Worker)** を使用する
+- フロントエンドテストの実装規約は、docs\rules\development\test-rule.md を正本とする。
 
 ```typescript
 // tests/unit/features/member/MemberInfoCard.test.tsx
@@ -170,9 +158,9 @@ test('組合員名が表示される', () => {
 ### バックエンド
 #### pytest
 
-- ユニットテスト: サービス層・リポジトリ層を個別にテスト
-- 統合テスト: ローカル DynamoDB を使用した API エンドポイントテスト
 - カバレッジ目標: **80% 以上**
+
+- バックエンドテストの実装規約は、docs\rules\development\test-rule.md を正本とする。
 
 ```python
 # tests/unit/services/test_member_service.py
@@ -189,7 +177,7 @@ async def test_get_member_returns_member(mock_member_repository):
 
 #### Playwright（E2E テスト）
 
-- 主要なユーザーフローを必ず E2E テストでカバーする
+- 主要なユーザフローを必ず E2E テストでカバーする
 - テストは `tests/e2e/` に配置する
 - テスト対象のフロー:
   - [ ] ログイン・ログアウト
@@ -224,4 +212,4 @@ test('組合員情報を更新できる', async ({ page }) => {
 
 
 > **Note**: このファイルはプロジェクトの進化に合わせて継続的に更新してください。
-> 大きな設計変更・新機能追加・ツール変更の際は必ず AGENT.md を見直してください。
+> 大きな設計変更・新機能追加・ツール変更の際は必ず AGENTS.md を見直してください。
