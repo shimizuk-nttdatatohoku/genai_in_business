@@ -3,11 +3,14 @@
 # 基本方針
 
 - Pythonを使用する
+- 型ヒントを必須とする
+- docstringを関数・クラスに記述する
+- PEP 8 に準拠する
 - FastAPIを使用する
 - Mangumを使用してAWS Lambdaへデプロイする
 - AWS Lambda上で動作可能な構成とする
-- 可読性を優先する
-- シンプルな構成を優先する
+- 変数名・関数名・制御フローは省略せず、読み手が追いやすい記述を優先する
+- 不要な層や抽象化を増やさず、Router → Service → Repository の構成を維持する
 - AIエージェントが解釈しやすい構成とする
 - PoC向け最小構成を採用する
 
@@ -85,7 +88,7 @@ Repository
 # Serviceルール
 
 - 業務ロジックを実装する
-- Router依存禁止
+- FastAPI の Router や Request / Response オブジェクトへ依存しない
 - DBアクセスはRepository経由のみ
 - Response生成禁止
 
@@ -138,14 +141,13 @@ Repository
 - print禁止
 - request_idを出力する
 - CloudWatch出力を前提とする
+- 氏名、住所、電話番号、口座番号などの個人情報はマスキングして出力する
 
 ---
 
 # 例外処理
 
-- 共通ExceptionHandlerを使用する
-- stacktrace返却禁止
-- try-catch握り潰し禁止
+- `docs/rules/common/error-rule.md` を参照する
 
 ---
 
@@ -154,6 +156,7 @@ Repository
 - Secret直書き禁止
 - URL直書き禁止
 - os.getenv を使用する
+- `docs/rules/common/implementation-rule.md` を参照する
 
 ---
 
@@ -175,19 +178,13 @@ Repository
 
 # テスト
 
-- pytestを使用する
-- Router単位で試験する
-- Service単位で試験する
+- `docs/rules/development/test-rule.md` を参照する
 
 ---
 
 # 命名規則
 
-|対象|ルール|
-|---|---|
-|ファイル名|snake_case|
-|Class名|PascalCase|
-|Function名|snake_case|
+- `docs/rules/common/naming-rule.md` を参照する
 
 ---
 
@@ -198,8 +195,6 @@ Repository
 - Repositoryで業務ロジック
 - printデバッグ
 - グローバル状態依存
-- localhost固定
-- URLハードコード
 - 巨大関数
 - 不要な抽象化
 - 不要なライブラリ追加
