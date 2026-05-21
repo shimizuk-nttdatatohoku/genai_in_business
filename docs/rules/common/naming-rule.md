@@ -76,6 +76,16 @@ canEdit
 
 ---
 
+## Props
+
+- interface名は `[Component名]Props` を使用する
+
+### OK
+
+UserListProps
+
+---
+
 # Python
 
 ## ファイル名
