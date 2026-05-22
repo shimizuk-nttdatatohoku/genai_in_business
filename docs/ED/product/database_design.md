@@ -1,355 +1,408 @@
 # DB設計書（物理設計）
 
 ## 0. 設計方針
-- 本設計は [ER図](docs/ED/product/er_diargram.md) を基にした物理設計であり、永続化基盤は Amazon DynamoDB を前提とする。
-- ER図のエンティティを 1 テーブルとして物理設計し、テーブル名・カラム名は命名規則に従い `snake_case` で統一する。
-- DynamoDB では外部キー、ユニーク制約、CHECK 制約を RDB のように物理強制できないため、本書では「論理制約」として定義し、アプリケーション制御または条件付き更新で担保する。
-- 監査要件に対応するため、更新対象テーブルには `created_at`、`created_by`、`updated_at`、`updated_by` を付与する。
-- 更新競合が発生しうるテーブルには `record_version` を付与し、楽観ロックを行う。
-- 業務上の参照整合性と復旧性を考慮し、マスタ系テーブルには `deleted_flag`、`deleted_at` を持たせて論理削除を採用する。
-- データ型は論理的な型表現として `varchar`、`int`、`bigint`、`decimal`、`timestamp`、`date`、`boolean` を用いる。DynamoDB 実装時は `String`、`Number`、`Boolean` に読み替える。
+
+- 物理設計は NoSQL 前提とし、DynamoDB 互換のテーブル設計として整理する。
+- 論理 ER 図の 1 エンティティを 1 テーブルに対応させ、責務の混在を避ける。
+- 主キーは全テーブルで `_id` を使用し、UUID を採番する。
+- リレーションは `xxx_id` による論理参照で表現し、FK / UNIQUE / CHECK はアプリケーション制御および条件付き更新で担保する。
+- 共通監査項目として `created_at`、`updated_at`、`created_by`、`updated_by`、`is_deleted` を持つ。
+- 一覧・詳細・更新 API のアクセスパターンに合わせ、DynamoDB の GSI を前提にインデックスを設計する。
+- `NULL` 前提設計は避け、未設定を許容する項目は属性未保持で扱う。
 
 ## 1. テーブル一覧
-| テーブル名 | 論理名 | 種別（マスタ/トラン/履歴/ログ） | 概要 |
+
+| テーブル名 | 論理名 | 種別 | 概要 |
 |---|---|---|---|
-| users | ユーザ | マスタ | 組合員本人の基本情報、連絡先、通知方法、状態を保持する。 |
-| user_authentications | ユーザ認証情報 | マスタ | ユーザコードに対するログイン認証情報と認証状態を保持する。 |
-| dividend_notices | 出資配当金お知らせ | マスタ | 年度別の配当通知見出し、公開状態、案内文言を保持する。 |
-| dividend_infos | 出資配当情報 | トラン | ユーザごとの年度別出資残高、配当金額、受取状況を保持する。 |
-| dividend_receipt_methods | 配当金受取方法情報 | トラン | 出資配当情報ごとの受取方法設定を保持する。 |
-| bank_account_registrations | 口座登録情報 | マスタ | ユーザの登録口座状態および振込先口座表示情報を保持する。 |
+| users | 組合員 | マスタ | 組合員の基本情報、認証情報、通知方法設定を保持する。 |
+| dividend_notices | 出資配当金お知らせ | マスタ | トップ画面および詳細画面で参照する公開お知らせ情報を保持する。 |
+| distributions | 出資配当情報 | トラン | 組合員ごとの年度別出資配当情報と受取状況を保持する。 |
+| notice_reads | お知らせ既読情報 | トラン | 組合員ごとのお知らせ既読状態を保持する。 |
+| receipt_methods | 配当金受取方法 | マスタ | 配当金受取方法の候補値を保持する。 |
 
 ## 2. テーブル定義
 
-- 本章の `UNIQUE` 列は、主キーとは独立して定義するユニーク制約のみを示す。主キーによる一意性は `PK` 列で管理する。
-
 ### 2.1 users
-- 論理名：ユーザ
-- 概要：組合員本人の基本属性、連絡先、通知方法、利用状態を保持する。
+
+- 論理名：組合員
+- 概要：組合員の基本属性、ログイン認証用ハッシュ、通知方法設定を保持する。
 - 種別：マスタ
-- 主キー（PK）：`user_code`
+- 主キー（PK）：`_id`
 - 外部キー（FK）：なし
-- ユニーク制約：なし
-- インデックス（提案）：`pk_users(user_code)`
-- NoSQL物理キー：パーティションキー `user_code`
-- 備考（論理削除/監査/バージョン管理など）：論理削除あり、監査カラムあり、楽観ロックあり
+- ユニーク制約：`user_code`（アプリケーション保証）
+- インデックス（提案）：`gsi_user_code`、`gsi_email`（案）
+- 備考：`notification_method` は単一の整数値を保持する。`0` は「通知しない」、`1` は「SMSで通知」を表す。`users` の更新競合制御が必要な場合は `version` 追加を要確認とする。
 
 #### カラム定義
+
 | カラム名 | 論理名 | 型 | 桁 | NULL | PK | FK | UNIQUE | DEFAULT | 説明 |
 |---|---|---|---|---|---|---|---|---|---|
-| user_code | ユーザコード | varchar | 20 | N | Y | N | N | - | ユーザを一意に識別する業務キー。 |
-| user_name | ユーザ名 | varchar | 100 | N | N | N | N | - | ユーザ氏名。 |
-| user_name_kana | ユーザ名カナ | varchar | 100 | Y | N | N | N | null | ユーザ氏名カナ。 |
-| birth_date | 生年月日 | date | - | Y | N | N | N | null | 本人確認用の生年月日。 |
-| postal_code | 郵便番号 | varchar | 8 | Y | N | N | N | null | ハイフン込み 8 桁想定。 |
-| address | 住所 | varchar | 255 | Y | N | N | N | null | 都道府県以降を含む住所。 |
-| phone_number | 電話番号 | varchar | 20 | Y | N | N | N | null | 固定電話・携帯電話の双方を想定。 |
-| email_address | メールアドレス | varchar | 254 | Y | N | N | N | null | 通知先メールアドレス。 |
-| notification_method | 通知方法 | varchar | 20 | N | N | N | N | email | 通知方法。`email`、`postal_mail`、`none` を想定。 |
-| user_status | ユーザ状態 | varchar | 20 | N | N | N | N | active | 利用状態。`active`、`inactive`、`suspended` を想定。 |
-| record_version | レコードバージョン | bigint | 19 | N | N | N | N | 1 | 楽観ロック用の更新バージョン。 |
-| deleted_flag | 削除フラグ | boolean | - | N | N | N | N | false | 論理削除判定。 |
-| deleted_at | 削除日時 | timestamp | - | Y | N | N | N | null | 論理削除日時。 |
-| created_at | 作成日時 | timestamp | - | N | N | N | N | CURRENT_TIMESTAMP | レコード作成日時。 |
-| created_by | 作成者 | varchar | 20 | N | N | N | N | system | レコード作成者のユーザコード。 |
-| updated_at | 更新日時 | timestamp | - | N | N | N | N | CURRENT_TIMESTAMP | レコード最終更新日時。 |
-| updated_by | 更新者 | varchar | 20 | N | N | N | N | system | レコード最終更新者のユーザコード。 |
+| _id | 組合員ID | string | 36 | N | Y |  |  | UUID | 主キー |
+| user_code | 組合員コード | string | 20案 | N |  |  | Y |  | ログインおよび画面表示で使用する識別子 |
+| password_hash | パスワードハッシュ | string | 255案 | N |  |  |  |  | 認証比較用ハッシュ |
+| user_name | 組合員名 | string | 100案 | N |  |  |  |  | 氏名 |
+| user_name_kana | 組合員名カナ | string | 100案 | N |  |  |  |  | フリガナ |
+| birth_date | 生年月日 | string | 10 | N |  |  |  |  | ISO8601 日付文字列 |
+| postal_code | 郵便番号 | string | 8 | N |  |  |  |  | ハイフン込み郵便番号 |
+| address | 住所 | string | 255案 | N |  |  |  |  | 住所 |
+| phone_number | 電話番号 | string | 20 | N |  |  |  |  | 連絡先電話番号 |
+| email | メールアドレス | string | 254 | N |  |  |  |  | 連絡先メールアドレス |
+| contribution_balance | 出資金残高 | decimal | 12,2案 | N |  |  |  | 0 | マイページ表示用の現時点残高 |
+| bank_account_info | 口座情報 | string | 255案 | Y |  |  |  |  | 受取方法表示用の口座情報 |
+| notification_method | 通知方法 | integer | 1 | N |  |  |  | 0 | 0: 通知しない, 1: SMSで通知 |
+| created_at | 作成日時 | string | 20 | N |  |  |  | system time | ISO8601 形式 |
+| updated_at | 更新日時 | string | 20 | N |  |  |  | system time | ISO8601 形式 |
+| created_by | 作成者 | string | 36案 | N |  |  |  | system | 作成者識別子 |
+| updated_by | 更新者 | string | 36案 | N |  |  |  | system | 更新者識別子 |
+| is_deleted | 論理削除フラグ | boolean | 1 | N |  |  |  | false | 論理削除管理 |
 
-### 2.2 user_authentications
-- 論理名：ユーザ認証情報
-- 概要：ユーザの認証に必要なハッシュ化パスワード、認証状態、最終ログイン日時を保持する。
-- 種別：マスタ
-- 主キー（PK）：`user_code`
-- 外部キー（FK）：`user_code` -> `users.user_code`
-- ユニーク制約：なし
-- インデックス（提案）：`pk_user_authentications(user_code)`
-- NoSQL物理キー：パーティションキー `user_code`
-- 備考（論理削除/監査/バージョン管理など）：論理削除は行わず `account_status` で管理、監査カラムあり、楽観ロックあり
+#### サンプルデータ
 
-#### カラム定義
-| カラム名 | 論理名 | 型 | 桁 | NULL | PK | FK | UNIQUE | DEFAULT | 説明 |
-|---|---|---|---|---|---|---|---|---|---|
-| user_code | ユーザコード | varchar | 20 | N | Y | Y | N | - | `users` と 1:1 で対応するキー。 |
-| password_hash | パスワードハッシュ | varchar | 255 | N | N | N | N | - | ハッシュ化済みパスワード。 |
-| account_status | アカウント状態 | varchar | 20 | N | N | N | N | active | `active`、`locked`、`inactive` を想定。 |
-| password_updated_at | パスワード更新日時 | timestamp | - | N | N | N | N | CURRENT_TIMESTAMP | パスワード最終更新日時。 |
-| last_login_at | 最終ログイン日時 | timestamp | - | Y | N | N | N | null | 最終ログイン成功日時。 |
-| record_version | レコードバージョン | bigint | 19 | N | N | N | N | 1 | 楽観ロック用の更新バージョン。 |
-| created_at | 作成日時 | timestamp | - | N | N | N | N | CURRENT_TIMESTAMP | レコード作成日時。 |
-| created_by | 作成者 | varchar | 20 | N | N | N | N | system | レコード作成者。 |
-| updated_at | 更新日時 | timestamp | - | N | N | N | N | CURRENT_TIMESTAMP | レコード最終更新日時。 |
-| updated_by | 更新者 | varchar | 20 | N | N | N | N | system | レコード最終更新者。 |
+```json
+{
+  "_id": "usr-6e6d2f83-0db6-43c9-b6af-55e26e8df801",
+  "user_code": "U000001",
+  "password_hash": "<hash>",
+  "user_name": "山田 太郎",
+  "user_name_kana": "ヤマダ タロウ",
+  "birth_date": "1980-01-15",
+  "postal_code": "100-0001",
+  "address": "東京都千代田区...",
+  "phone_number": "090-1234-5678",
+  "email": "taro.yamada@example.jp",
+  "contribution_balance": 250000.00,
+  "bank_account_info": "みらい銀行 東京支店 普通 1234567",
+  "notification_method": 1,
+  "created_at": "2026-05-21T09:00:00Z",
+  "updated_at": "2026-05-21T09:00:00Z",
+  "created_by": "system",
+  "updated_by": "system",
+  "is_deleted": false
+}
+```
 
-### 2.3 dividend_notices
+### 2.2 dividend_notices
+
 - 論理名：出資配当金お知らせ
-- 概要：トップ画面や配当画面に表示する年度別のお知らせを保持する。
+- 概要：トップ画面一覧と詳細画面ヘッダに必要な公開情報を保持する。
 - 種別：マスタ
-- 主キー（PK）：`notice_id`
+- 主キー（PK）：`_id`
 - 外部キー（FK）：なし
-- ユニーク制約：`fiscal_year`, `title`
-- インデックス（提案）：`pk_dividend_notices(notice_id)`、`idx_dividend_notices_01(publication_status, fiscal_year, published_at)`
-- NoSQL物理キー：パーティションキー `notice_id`、GSI `gsi_dividend_notices_01(publication_status, fiscal_year)`
-- 備考（論理削除/監査/バージョン管理など）：論理削除あり、監査カラムあり、楽観ロックあり
-
-#### カラム定義
-| カラム名 | 論理名 | 型 | 桁 | NULL | PK | FK | UNIQUE | DEFAULT | 説明 |
-|---|---|---|---|---|---|---|---|---|---|
-| notice_id | お知らせID | varchar | 36 | N | Y | N | N | - | お知らせを一意に識別する ID。UUID 想定。 |
-| fiscal_year | 対象年度 | int | 4 | N | N | N | Y(複合) | - | 配当対象年度。 |
-| title | 件名 | varchar | 200 | N | N | N | Y(複合) | - | お知らせ見出し。 |
-| explanatory_message | 説明文 | varchar | 2000 | Y | N | N | N | null | 画面表示する補足説明。 |
-| support_link | サポートリンク | varchar | 255 | Y | N | N | N | null | 問い合わせまたは詳細ページ URL。 |
-| publication_status | 公開状態 | varchar | 20 | N | N | N | N | draft | `draft`、`published`、`closed` を想定。 |
-| published_at | 公開日時 | timestamp | - | Y | N | N | N | null | 公開開始日時。 |
-| record_version | レコードバージョン | bigint | 19 | N | N | N | N | 1 | 楽観ロック用の更新バージョン。 |
-| deleted_flag | 削除フラグ | boolean | - | N | N | N | N | false | 論理削除判定。 |
-| deleted_at | 削除日時 | timestamp | - | Y | N | N | N | null | 論理削除日時。 |
-| created_at | 作成日時 | timestamp | - | N | N | N | N | CURRENT_TIMESTAMP | レコード作成日時。 |
-| created_by | 作成者 | varchar | 20 | N | N | N | N | system | レコード作成者。 |
-| updated_at | 更新日時 | timestamp | - | N | N | N | N | CURRENT_TIMESTAMP | レコード最終更新日時。 |
-| updated_by | 更新者 | varchar | 20 | N | N | N | N | system | レコード最終更新者。 |
-
-### 2.4 dividend_infos
-- 論理名：出資配当情報
-- 概要：ユーザごとの年度別の出資残高、配当率、配当金額、受取状況を保持する。
-- 種別：トラン
-- 主キー（PK）：`dividend_info_id`
-- 外部キー（FK）：`notice_id` -> `dividend_notices.notice_id`、`user_code` -> `users.user_code`
-- ユニーク制約：`notice_id`, `user_code`
-- インデックス（提案）：`pk_dividend_infos(dividend_info_id)`、`idx_dividend_infos_01(user_code, notice_id)`、`idx_dividend_infos_02(notice_id, receipt_status)`
-- NoSQL物理キー：パーティションキー `dividend_info_id`、GSI `gsi_dividend_infos_01(user_code, notice_id)`、GSI `gsi_dividend_infos_02(notice_id, receipt_status)`
-- 備考（論理削除/監査/バージョン管理など）：論理削除なし、監査カラムあり、楽観ロックあり
-
-#### カラム定義
-| カラム名 | 論理名 | 型 | 桁 | NULL | PK | FK | UNIQUE | DEFAULT | 説明 |
-|---|---|---|---|---|---|---|---|---|---|
-| dividend_info_id | 出資配当情報ID | varchar | 36 | N | Y | N | N | - | 出資配当情報を一意に識別する ID。UUID 想定。 |
-| notice_id | お知らせID | varchar | 36 | N | N | Y | Y(複合) | - | 対象となる出資配当金お知らせ ID。 |
-| user_code | ユーザコード | varchar | 20 | N | N | Y | Y(複合) | - | 対象ユーザのコード。 |
-| capital_balance_amount | 出資残高金額 | decimal | 15,2 | N | N | N | N | 0.00 | 対象年度時点の出資残高。 |
-| dividend_amount | 配当金額 | decimal | 15,2 | N | N | N | N | 0.00 | 対象年度の配当金額。 |
-| dividend_rate_before_tax | 税引前配当率 | decimal | 5,2 | N | N | N | N | 0.00 | 税引前配当率。 |
-| dividend_rate_after_tax | 税引後配当率 | decimal | 5,2 | N | N | N | N | 0.00 | 税引後配当率。 |
-| receipt_status | 受取状態 | varchar | 20 | N | N | N | N | unselected | `unselected`、`selected`、`completed` を想定。 |
-| record_version | レコードバージョン | bigint | 19 | N | N | N | N | 1 | 楽観ロック用の更新バージョン。 |
-| created_at | 作成日時 | timestamp | - | N | N | N | N | CURRENT_TIMESTAMP | レコード作成日時。 |
-| created_by | 作成者 | varchar | 20 | N | N | N | N | system | レコード作成者。 |
-| updated_at | 更新日時 | timestamp | - | N | N | N | N | CURRENT_TIMESTAMP | レコード最終更新日時。 |
-| updated_by | 更新者 | varchar | 20 | N | N | N | N | system | レコード最終更新者。 |
-
-### 2.5 dividend_receipt_methods
-- 論理名：配当金受取方法情報
-- 概要：ユーザが選択した配当金受取方法を出資配当情報単位で保持する。
-- 種別：トラン
-- 主キー（PK）：`dividend_info_id`
-- 外部キー（FK）：`dividend_info_id` -> `dividend_infos.dividend_info_id`
 - ユニーク制約：なし
-- インデックス（提案）：`pk_dividend_receipt_methods(dividend_info_id)`
-- NoSQL物理キー：パーティションキー `dividend_info_id`
-- 備考（論理削除/監査/バージョン管理など）：論理削除なし、監査カラムあり、楽観ロックあり
+- インデックス（提案）：`gsi_publication_status`、`gsi_is_public_published_at`（案）
+- 備考：`remarks` は詳細画面表示用の可変長メッセージ配列とする。
 
 #### カラム定義
+
 | カラム名 | 論理名 | 型 | 桁 | NULL | PK | FK | UNIQUE | DEFAULT | 説明 |
 |---|---|---|---|---|---|---|---|---|---|
-| dividend_info_id | 出資配当情報ID | varchar | 36 | N | Y | Y | N | - | `dividend_infos` と 1:1 で対応するキー。 |
-| receipt_method | 受取方法 | varchar | 30 | N | N | N | N | registered_bank_transfer | `registered_bank_transfer`、`service_counter` を想定。 |
-| record_version | レコードバージョン | bigint | 19 | N | N | N | N | 1 | 楽観ロック用の更新バージョン。 |
-| created_at | 作成日時 | timestamp | - | N | N | N | N | CURRENT_TIMESTAMP | 初回登録日時。 |
-| created_by | 作成者 | varchar | 20 | N | N | N | N | system | 初回登録者。 |
-| updated_at | 更新日時 | timestamp | - | N | N | N | N | CURRENT_TIMESTAMP | 最終更新日時。 |
-| updated_by | 更新者 | varchar | 20 | N | N | N | N | system | 最終更新者。 |
+| _id | お知らせID | string | 36 | N | Y |  |  | UUID | 主キー |
+| notice_title | お知らせタイトル | string | 120案 | N |  |  |  |  | 一覧・詳細表示タイトル |
+| fiscal_year | 年度 | string | 4 | N |  |  |  |  | 対象年度 |
+| remarks | 備考一覧 | array<string> | 10件案 | Y |  |  |  | [] | 詳細画面の備考表示 |
+| publication_status | 公開状態 | string | 20案 | N |  |  |  | draft | `draft` / `published` / `closed` を想定 |
+| is_public | 公開フラグ | boolean | 1 | N |  |  |  | false | 画面表示可否 |
+| published_at | 公開日時 | string | 20 | Y |  |  |  |  | ISO8601 形式 |
+| created_at | 作成日時 | string | 20 | N |  |  |  | system time | ISO8601 形式 |
+| updated_at | 更新日時 | string | 20 | N |  |  |  | system time | ISO8601 形式 |
+| created_by | 作成者 | string | 36案 | N |  |  |  | system | 作成者識別子 |
+| updated_by | 更新者 | string | 36案 | N |  |  |  | system | 更新者識別子 |
+| is_deleted | 論理削除フラグ | boolean | 1 | N |  |  |  | false | 論理削除管理 |
 
-### 2.6 bank_account_registrations
-- 論理名：口座登録情報
-- 概要：ユーザの口座登録有無および振込先口座の表示用属性を保持する。
+#### サンプルデータ
+
+```json
+{
+  "_id": "ntc-2025-01",
+  "notice_title": "2025年度 出資配当金のお知らせ",
+  "fiscal_year": "2025",
+  "remarks": [
+    "受取方法は受付期間内のみ変更できます。",
+    "受取済の場合は変更できません。"
+  ],
+  "publication_status": "published",
+  "is_public": true,
+  "published_at": "2026-05-01T00:00:00Z",
+  "created_at": "2026-04-20T09:00:00Z",
+  "updated_at": "2026-05-01T00:00:00Z",
+  "created_by": "admin-001",
+  "updated_by": "admin-001",
+  "is_deleted": false
+}
+```
+
+### 2.3 distributions
+
+- 論理名：出資配当情報
+- 概要：組合員ごとの対象年度配当金、受取状況、受取方法を保持する。
+- 種別：トラン
+- 主キー（PK）：`_id`
+- 外部キー（FK）：`user_id`、`notice_id`、`receipt_method_id`（論理参照）
+- ユニーク制約：`user_id` + `notice_id`（アプリケーション保証）
+- インデックス（提案）：`gsi_user_notice`、`gsi_notice_user`（案）
+- 備考：受取方法更新時は `version` を条件付き更新に使用し、楽観ロックを実装する。
+
+#### カラム定義
+
+| カラム名 | 論理名 | 型 | 桁 | NULL | PK | FK | UNIQUE | DEFAULT | 説明 |
+|---|---|---|---|---|---|---|---|---|---|
+| _id | 配当情報ID | string | 36 | N | Y |  |  | UUID | 主キー |
+| user_id | 組合員ID | string | 36 | N |  | Y |  |  | `users._id` を参照 |
+| notice_id | お知らせID | string | 36 | N |  | Y |  |  | `dividend_notices._id` を参照 |
+| fiscal_year | 年度 | string | 4 | N |  |  |  |  | 対象年度 |
+| contribution_balance | 出資金残高 | decimal | 12,2案 | N |  |  |  | 0 | 当該年度計算時点の残高 |
+| dividend_amount | 配当金額 | decimal | 12,2案 | N |  |  |  | 0 | 支給予定または支給済金額 |
+| dividend_rate | 配当率 | decimal | 5,2案 | N |  |  |  | 0 | 年度配当率 |
+| receipt_status | 受取状況 | string | 20案 | N |  |  |  | unreceived | `unreceived` / `received` を想定 |
+| receipt_method_id | 受取方法ID | string | 36 | Y |  | Y |  |  | `receipt_methods._id` を参照 |
+| version | バージョン | string | 36案 | N |  |  |  | 1 | 楽観ロック用バージョン |
+| created_at | 作成日時 | string | 20 | N |  |  |  | system time | ISO8601 形式 |
+| updated_at | 更新日時 | string | 20 | N |  |  |  | system time | ISO8601 形式 |
+| created_by | 作成者 | string | 36案 | N |  |  |  | system | 作成者識別子 |
+| updated_by | 更新者 | string | 36案 | N |  |  |  | system | 更新者識別子 |
+| is_deleted | 論理削除フラグ | boolean | 1 | N |  |  |  | false | 論理削除管理 |
+
+#### サンプルデータ
+
+```json
+{
+  "_id": "dst-2025-u000001",
+  "user_id": "usr-6e6d2f83-0db6-43c9-b6af-55e26e8df801",
+  "notice_id": "ntc-2025-01",
+  "fiscal_year": "2025",
+  "contribution_balance": 250000.00,
+  "dividend_amount": 5000.00,
+  "dividend_rate": 2.00,
+  "receipt_status": "unreceived",
+  "receipt_method_id": "rcp-bank-transfer",
+  "version": "3",
+  "created_at": "2026-05-01T00:00:00Z",
+  "updated_at": "2026-05-21T09:30:00Z",
+  "created_by": "batch-001",
+  "updated_by": "usr-6e6d2f83-0db6-43c9-b6af-55e26e8df801",
+  "is_deleted": false
+}
+```
+
+### 2.4 notice_reads
+
+- 論理名：お知らせ既読情報
+- 概要：組合員がお知らせ詳細を閲覧した事実を保持する。
+- 種別：トラン
+- 主キー（PK）：`_id`
+- 外部キー（FK）：`user_id`、`notice_id`（論理参照）
+- ユニーク制約：`user_id` + `notice_id`（アプリケーション保証）
+- インデックス（提案）：`gsi_user_notice`
+- 備考：一覧画面の `isNew` 判定で使用するため、存在確認が高速になるように複合 GSI を付与する。
+
+#### カラム定義
+
+| カラム名 | 論理名 | 型 | 桁 | NULL | PK | FK | UNIQUE | DEFAULT | 説明 |
+|---|---|---|---|---|---|---|---|---|---|
+| _id | 既読情報ID | string | 36 | N | Y |  |  | UUID | 主キー |
+| user_id | 組合員ID | string | 36 | N |  | Y |  |  | `users._id` を参照 |
+| notice_id | お知らせID | string | 36 | N |  | Y |  |  | `dividend_notices._id` を参照 |
+| read_at | 既読日時 | string | 20 | N |  |  |  | system time | ISO8601 形式 |
+| created_at | 作成日時 | string | 20 | N |  |  |  | system time | ISO8601 形式 |
+| updated_at | 更新日時 | string | 20 | N |  |  |  | system time | ISO8601 形式 |
+| created_by | 作成者 | string | 36案 | N |  |  |  | system | 作成者識別子 |
+| updated_by | 更新者 | string | 36案 | N |  |  |  | system | 更新者識別子 |
+| is_deleted | 論理削除フラグ | boolean | 1 | N |  |  |  | false | 論理削除管理 |
+
+#### サンプルデータ
+
+```json
+{
+  "_id": "nrd-u000001-ntc-2025-01",
+  "user_id": "usr-6e6d2f83-0db6-43c9-b6af-55e26e8df801",
+  "notice_id": "ntc-2025-01",
+  "read_at": "2026-05-21T09:15:00Z",
+  "created_at": "2026-05-21T09:15:00Z",
+  "updated_at": "2026-05-21T09:15:00Z",
+  "created_by": "usr-6e6d2f83-0db6-43c9-b6af-55e26e8df801",
+  "updated_by": "usr-6e6d2f83-0db6-43c9-b6af-55e26e8df801",
+  "is_deleted": false
+}
+```
+
+### 2.5 receipt_methods
+
+- 論理名：配当金受取方法
+- 概要：配当金詳細画面で選択可能な受取方法候補を保持する。
 - 種別：マスタ
-- 主キー（PK）：`bank_account_registration_id`
-- 外部キー（FK）：`user_code` -> `users.user_code`
-- ユニーク制約：`user_code`
-- インデックス（提案）：`pk_bank_account_registrations(bank_account_registration_id)`、`idx_bank_account_registrations_01(user_code, bank_registration_status)`
-- NoSQL物理キー：パーティションキー `bank_account_registration_id`、GSI `gsi_bank_account_registrations_01(user_code, bank_registration_status)`
-- 備考（論理削除/監査/バージョン管理など）：論理削除あり、監査カラムあり、楽観ロックあり
+- 主キー（PK）：`_id`
+- 外部キー（FK）：なし
+- ユニーク制約：`method_code`（アプリケーション保証）
+- インデックス（提案）：`gsi_method_code`
+- 備考：候補値はマスタメンテナンスまたは初期データ投入で管理する。
 
 #### カラム定義
+
 | カラム名 | 論理名 | 型 | 桁 | NULL | PK | FK | UNIQUE | DEFAULT | 説明 |
 |---|---|---|---|---|---|---|---|---|---|
-| bank_account_registration_id | 口座登録情報ID | varchar | 36 | N | Y | N | N | - | 口座登録情報を一意に識別する ID。UUID 想定。 |
-| user_code | ユーザコード | varchar | 20 | N | N | Y | Y | - | 口座登録対象ユーザのコード。 |
-| bank_registration_status | 口座登録状態 | varchar | 20 | N | N | N | N | unregistered | `registered`、`unregistered`、`pending` を想定。 |
-| financial_institution_name | 金融機関名 | varchar | 100 | Y | N | N | N | null | 振込先金融機関名。 |
-| branch_name | 支店名 | varchar | 100 | Y | N | N | N | null | 振込先支店名。 |
-| account_holder_name_kana | 口座名義人カナ | varchar | 100 | Y | N | N | N | null | 口座名義人カナ。 |
-| record_version | レコードバージョン | bigint | 19 | N | N | N | N | 1 | 楽観ロック用の更新バージョン。 |
-| deleted_flag | 削除フラグ | boolean | - | N | N | N | N | false | 論理削除判定。 |
-| deleted_at | 削除日時 | timestamp | - | Y | N | N | N | null | 論理削除日時。 |
-| created_at | 作成日時 | timestamp | - | N | N | N | N | CURRENT_TIMESTAMP | レコード作成日時。 |
-| created_by | 作成者 | varchar | 20 | N | N | N | N | system | レコード作成者。 |
-| updated_at | 更新日時 | timestamp | - | N | N | N | N | CURRENT_TIMESTAMP | レコード最終更新日時。 |
-| updated_by | 更新者 | varchar | 20 | N | N | N | N | system | レコード最終更新者。 |
+| _id | 受取方法ID | string | 36 | N | Y |  |  | UUID | 主キー |
+| method_code | 受取方法コード | string | 30案 | N |  |  | Y |  | システム内候補値コード |
+| method_name | 受取方法名 | string | 50案 | N |  |  |  |  | 画面表示名 |
+| created_at | 作成日時 | string | 20 | N |  |  |  | system time | ISO8601 形式 |
+| updated_at | 更新日時 | string | 20 | N |  |  |  | system time | ISO8601 形式 |
+| created_by | 作成者 | string | 36案 | N |  |  |  | system | 作成者識別子 |
+| updated_by | 更新者 | string | 36案 | N |  |  |  | system | 更新者識別子 |
+| is_deleted | 論理削除フラグ | boolean | 1 | N |  |  |  | false | 論理削除管理 |
 
-## 3. 制約定義
+#### サンプルデータ
 
-### 3.1 主キー（PK）
-| テーブル名 | 主キー |
-|---|---|
-| users | `user_code` |
-| user_authentications | `user_code` |
-| dividend_notices | `notice_id` |
-| dividend_infos | `dividend_info_id` |
-| dividend_receipt_methods | `dividend_info_id` |
-| bank_account_registrations | `bank_account_registration_id` |
+```json
+{
+  "_id": "rcp-bank-transfer",
+  "method_code": "bank_transfer",
+  "method_name": "口座振込",
+  "created_at": "2026-04-01T00:00:00Z",
+  "updated_at": "2026-04-01T00:00:00Z",
+  "created_by": "system",
+  "updated_by": "system",
+  "is_deleted": false
+}
+```
 
-### 3.2 外部キー（FK）
-| 子テーブル | 子カラム | 親テーブル | 親カラム | ON DELETE | ON UPDATE | 備考 |
-|---|---|---|---|---|---|---|
-| user_authentications | user_code | users | user_code | RESTRICT | CASCADE | ユーザ削除時は認証情報の孤立を防ぐ。NoSQL 実装では削除 API で同時制御する。 |
-| dividend_infos | notice_id | dividend_notices | notice_id | RESTRICT | CASCADE | 公開済みお知らせに紐づく配当情報を保護する。 |
-| dividend_infos | user_code | users | user_code | RESTRICT | CASCADE | ユーザ退会時も配当情報保全を優先する。 |
-| dividend_receipt_methods | dividend_info_id | dividend_infos | dividend_info_id | CASCADE | CASCADE | 配当情報削除時は受取方法も連動削除する。 |
-| bank_account_registrations | user_code | users | user_code | RESTRICT | CASCADE | 口座登録情報の孤立を防ぐ。 |
+## 3. リレーション（物理）
 
-### 3.3 ユニーク制約
-| テーブル名 | 制約名 | 対象カラム | 目的 |
+NoSQL 前提のため物理 FK 制約は設定しない。整合性はサービス層の参照チェックと DynamoDB 条件式で担保する。
+
+| 親テーブル | 子テーブル | 子カラム | 用途 | ON DELETE | ON UPDATE |
+|---|---|---|---|---|---|
+| users | distributions | user_id | 組合員ごとの配当情報参照 | RESTRICT 相当をアプリケーション制御 | RESTRICT 相当をアプリケーション制御 |
+| users | notice_reads | user_id | お知らせ既読情報参照 | RESTRICT 相当をアプリケーション制御 | RESTRICT 相当をアプリケーション制御 |
+| dividend_notices | distributions | notice_id | お知らせ詳細と配当情報の紐付け | RESTRICT 相当をアプリケーション制御 | RESTRICT 相当をアプリケーション制御 |
+| dividend_notices | notice_reads | notice_id | お知らせ既読情報参照 | RESTRICT 相当をアプリケーション制御 | RESTRICT 相当をアプリケーション制御 |
+| receipt_methods | distributions | receipt_method_id | 配当金受取方法候補参照 | RESTRICT 相当をアプリケーション制御 | RESTRICT 相当をアプリケーション制御 |
+
+### 制約定義
+
+| 種別 | 対象 | 制約内容 | 実装方針 |
 |---|---|---|---|
-| dividend_notices | uq_dividend_notices_01 | `fiscal_year`, `title` | 同一年度で同一件名のお知らせ重複を防ぐ。 |
-| dividend_infos | uq_dividend_infos_01 | `notice_id`, `user_code` | 年度別お知らせ単位でユーザごとの配当情報を一意に保つ。 |
-| bank_account_registrations | uq_bank_account_registrations_01 | `user_code` | ユーザごとの有効な口座登録情報を 1 件に保つ。 |
+| PK | 全テーブル | `_id` 一意 | UUID 採番 |
+| UNIQUE | users | `user_code` 一意 | `gsi_user_code` 参照と登録時重複チェック |
+| UNIQUE | distributions | `user_id` + `notice_id` 一意 | 条件付き書き込みで重複防止 |
+| UNIQUE | notice_reads | `user_id` + `notice_id` 一意 | 条件付き書き込みで重複防止 |
+| UNIQUE | receipt_methods | `method_code` 一意 | マスタ登録時重複チェック |
+| CHECK | dividend_notices | `publication_status` は候補値内 | アプリケーション入力検証 |
+| CHECK | distributions | `receipt_status` は候補値内 | アプリケーション入力検証 |
+| CHECK | users | `notification_method` は 0 または 1 | 更新前入力検証 |
 
-### 3.4 CHECK 制約
-| テーブル名 | 制約名 | 条件 | 目的 |
+## 4. インデックス設計
+
+| テーブル名 | インデックス名 | キー構成 | 用途 |
 |---|---|---|---|
-| users | ck_users_01 | `notification_method in ('email', 'postal_mail', 'none')` | 通知方法の値を制御する。 |
-| users | ck_users_02 | `user_status in ('active', 'inactive', 'suspended')` | ユーザ状態の値を制御する。 |
-| users | ck_users_03 | `deleted_flag = false or deleted_at is not null` | 論理削除時の削除日時整合性を担保する。 |
-| user_authentications | ck_user_authentications_01 | `account_status in ('active', 'locked', 'inactive')` | 認証状態の値を制御する。 |
-| dividend_notices | ck_dividend_notices_01 | `publication_status in ('draft', 'published', 'closed')` | 公開状態の値を制御する。 |
-| dividend_notices | ck_dividend_notices_02 | `fiscal_year >= 2000 and fiscal_year <= 9999` | 対象年度の妥当性を担保する。 |
-| dividend_infos | ck_dividend_infos_01 | `capital_balance_amount >= 0` | 出資残高の負値を防止する。 |
-| dividend_infos | ck_dividend_infos_02 | `dividend_amount >= 0` | 配当金額の負値を防止する。 |
-| dividend_infos | ck_dividend_infos_03 | `dividend_rate_before_tax >= 0 and dividend_rate_before_tax <= 100` | 税引前配当率の範囲を制御する。 |
-| dividend_infos | ck_dividend_infos_04 | `dividend_rate_after_tax >= 0 and dividend_rate_after_tax <= 100` | 税引後配当率の範囲を制御する。 |
-| dividend_infos | ck_dividend_infos_05 | `receipt_status in ('unselected', 'selected', 'completed')` | 受取状態の値を制御する。 |
-| dividend_receipt_methods | ck_dividend_receipt_methods_01 | `receipt_method in ('registered_bank_transfer', 'service_counter')` | 受取方法の値を制御する。 |
-| bank_account_registrations | ck_bank_account_registrations_01 | `bank_registration_status in ('registered', 'unregistered', 'pending')` | 口座登録状態の値を制御する。 |
-| bank_account_registrations | ck_bank_account_registrations_02 | `deleted_flag = false or deleted_at is not null` | 論理削除時の削除日時整合性を担保する。 |
+| users | gsi_user_code | PK:`user_code` | ログイン時の組合員特定、セッション再構築 |
+| users | gsi_email | PK:`email` | メールアドレス重複確認が必要な場合の拡張案 |
+| dividend_notices | gsi_publication_status | PK:`publication_status` / SK:`fiscal_year#updated_at` | 公開中お知らせ一覧を年度降順・更新日時降順で取得 |
+| dividend_notices | gsi_is_public_published_at | PK:`is_public` / SK:`published_at` | 公開状態を単純に一覧取得する代替案 |
+| distributions | gsi_user_notice | PK:`user_id` / SK:`notice_id` | 組合員本人の noticeId 単位詳細取得、受取方法更新対象取得 |
+| distributions | gsi_notice_user | PK:`notice_id` / SK:`user_id` | お知らせ起点での配当データ確認、運用照会 |
+| notice_reads | gsi_user_notice | PK:`user_id` / SK:`notice_id` | 一覧画面の `isNew` 判定 |
+| receipt_methods | gsi_method_code | PK:`method_code` | 候補値マスタのコード検索 |
 
-## 4. リレーション（物理）
-- `users` 1 : 1 `user_authentications`
-- `users` 1 : 0..1 `bank_account_registrations`
-- `users` 1 : N `dividend_infos`
-- `dividend_notices` 1 : N `dividend_infos`
-- `dividend_infos` 1 : 1 `dividend_receipt_methods`
-- DynamoDB 実装時は参照整合性をアプリケーションサービス層で担保し、削除時は関連テーブルを同一トランザクション API または整合性制御付きバッチで更新する。
+補足:
 
-## 5. インデックス設計
-| テーブル名 | インデックス名 | 種別 | 対象カラム | 想定ユースケース |
-|---|---|---|---|---|
-| users | pk_users | PK | `user_code` | ユーザ本人情報の単票取得。 |
-| dividend_notices | pk_dividend_notices | PK | `notice_id` | お知らせ ID 指定取得。 |
-| dividend_notices | idx_dividend_notices_01 | GSI / 複合 | `publication_status`, `fiscal_year`, `published_at` | 公開中のお知らせを年度順・公開日時順に一覧取得する。 |
-| dividend_infos | pk_dividend_infos | PK | `dividend_info_id` | 配当情報単票取得。 |
-| dividend_infos | idx_dividend_infos_01 | GSI / 複合 | `user_code`, `notice_id` | マイページでユーザ単位の配当情報を取得する。 |
-| dividend_infos | idx_dividend_infos_02 | GSI / 複合 | `notice_id`, `receipt_status` | 年度別のお知らせ配下で受取状況別の対象者を抽出する。 |
-| bank_account_registrations | pk_bank_account_registrations | PK | `bank_account_registration_id` | 口座登録情報単票取得。 |
-| bank_account_registrations | idx_bank_account_registrations_01 | GSI / 複合 | `user_code`, `bank_registration_status` | ユーザの口座登録有無判定、振込可否チェックを行う。 |
+- `dividend_notices` 一覧は DynamoDB の sort key を昇順保持し、取得時に逆順走査する想定とする。
+- `fiscal_year#updated_at` は `2025#2026-05-01T00:00:00Z` のような連結値を保持する設計案である。
+- `users.notification_method` は単一整数属性のため追加インデックスは不要とする。
 
-### 5.1 インデックス設計上の補足
-- `user_authentications` はログイン時に `user_code` 指定で参照するため、主キーのみで十分とする。
-- `dividend_receipt_methods` は `dividend_info_id` での単票参照・更新が中心であるため、主キーのみで十分とする。
-- DynamoDB の GSI 数はコストに直結するため、本書では画面要件から直接必要なアクセスパターンに限定している。
+## 5. DDL（例）
 
-## 6. DDL（例）
-※ NoSQL 実装時の DynamoDB テーブル作成に先立ち、論理制約確認用の代表的な SQL 例を示す。
+以下は DynamoDB 互換テーブルを想定した代表例であり、実装時は IaC に合わせて調整する。
 
 ```sql
 CREATE TABLE users (
-    user_code VARCHAR(20) PRIMARY KEY,
-    user_name VARCHAR(100) NOT NULL,
-    user_name_kana VARCHAR(100),
-    birth_date DATE,
-    postal_code VARCHAR(8),
-    address VARCHAR(255),
-    phone_number VARCHAR(20),
-    email_address VARCHAR(254),
-    notification_method VARCHAR(20) NOT NULL DEFAULT 'email',
-    user_status VARCHAR(20) NOT NULL DEFAULT 'active',
-    record_version BIGINT NOT NULL DEFAULT 1,
-    deleted_flag BOOLEAN NOT NULL DEFAULT FALSE,
-    deleted_at TIMESTAMP NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(20) NOT NULL DEFAULT 'system',
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_by VARCHAR(20) NOT NULL DEFAULT 'system',
-    CONSTRAINT ck_users_01 CHECK (notification_method IN ('email', 'postal_mail', 'none')),
-    CONSTRAINT ck_users_02 CHECK (user_status IN ('active', 'inactive', 'suspended')),
-    CONSTRAINT ck_users_03 CHECK (deleted_flag = FALSE OR deleted_at IS NOT NULL)
+    _id STRING HASH KEY,
+    user_code STRING,
+    password_hash STRING,
+    user_name STRING,
+    user_name_kana STRING,
+    birth_date STRING,
+    postal_code STRING,
+    address STRING,
+    phone_number STRING,
+    email STRING,
+    contribution_balance NUMBER,
+    bank_account_info STRING,
+    notification_method NUMBER,
+    created_at STRING,
+    updated_at STRING,
+    created_by STRING,
+    updated_by STRING,
+    is_deleted BOOLEAN
+)
+WITH (
+    billing_mode = 'PAY_PER_REQUEST',
+    global_secondary_indexes = [
+        {
+            name = 'gsi_user_code',
+            partition_key = 'user_code'
+        }
+    ]
 );
 
-CREATE TABLE dividend_infos (
-    dividend_info_id VARCHAR(36) PRIMARY KEY,
-    notice_id VARCHAR(36) NOT NULL,
-    user_code VARCHAR(20) NOT NULL,
-    capital_balance_amount DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
-    dividend_amount DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
-    dividend_rate_before_tax DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
-    dividend_rate_after_tax DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
-    receipt_status VARCHAR(20) NOT NULL DEFAULT 'unselected',
-    record_version BIGINT NOT NULL DEFAULT 1,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(20) NOT NULL DEFAULT 'system',
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_by VARCHAR(20) NOT NULL DEFAULT 'system',
-    CONSTRAINT uq_dividend_infos_01 UNIQUE (notice_id, user_code),
-    CONSTRAINT fk_dividend_infos_01 FOREIGN KEY (notice_id) REFERENCES dividend_notices (notice_id),
-    CONSTRAINT fk_dividend_infos_02 FOREIGN KEY (user_code) REFERENCES users (user_code),
-    CONSTRAINT ck_dividend_infos_01 CHECK (capital_balance_amount >= 0),
-    CONSTRAINT ck_dividend_infos_02 CHECK (dividend_amount >= 0),
-    CONSTRAINT ck_dividend_infos_03 CHECK (dividend_rate_before_tax >= 0 AND dividend_rate_before_tax <= 100),
-    CONSTRAINT ck_dividend_infos_04 CHECK (dividend_rate_after_tax >= 0 AND dividend_rate_after_tax <= 100),
-    CONSTRAINT ck_dividend_infos_05 CHECK (receipt_status IN ('unselected', 'selected', 'completed'))
+CREATE TABLE dividend_notices (
+    _id STRING HASH KEY,
+    notice_title STRING,
+    fiscal_year STRING,
+    remarks LIST,
+    publication_status STRING,
+    is_public BOOLEAN,
+    published_at STRING,
+    created_at STRING,
+    updated_at STRING,
+    created_by STRING,
+    updated_by STRING,
+    is_deleted BOOLEAN,
+    fiscal_year_updated_at STRING
+)
+WITH (
+    billing_mode = 'PAY_PER_REQUEST',
+    global_secondary_indexes = [
+        {
+            name = 'gsi_publication_status',
+            partition_key = 'publication_status',
+            sort_key = 'fiscal_year_updated_at'
+        }
+    ]
 );
 
-CREATE TABLE dividend_receipt_methods (
-    dividend_info_id VARCHAR(36) PRIMARY KEY,
-    receipt_method VARCHAR(30) NOT NULL DEFAULT 'registered_bank_transfer',
-    record_version BIGINT NOT NULL DEFAULT 1,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(20) NOT NULL DEFAULT 'system',
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_by VARCHAR(20) NOT NULL DEFAULT 'system',
-    CONSTRAINT fk_dividend_receipt_methods_01 FOREIGN KEY (dividend_info_id) REFERENCES dividend_infos (dividend_info_id) ON DELETE CASCADE,
-    CONSTRAINT ck_dividend_receipt_methods_01 CHECK (receipt_method IN ('registered_bank_transfer', 'service_counter'))
-);
-
-CREATE TABLE bank_account_registrations (
-    bank_account_registration_id VARCHAR(36) PRIMARY KEY,
-    user_code VARCHAR(20) NOT NULL,
-    bank_registration_status VARCHAR(20) NOT NULL DEFAULT 'unregistered',
-    financial_institution_name VARCHAR(100),
-    branch_name VARCHAR(100),
-    account_holder_name_kana VARCHAR(100),
-    record_version BIGINT NOT NULL DEFAULT 1,
-    deleted_flag BOOLEAN NOT NULL DEFAULT FALSE,
-    deleted_at TIMESTAMP NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(20) NOT NULL DEFAULT 'system',
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_by VARCHAR(20) NOT NULL DEFAULT 'system',
-    CONSTRAINT uq_bank_account_registrations_01 UNIQUE (user_code),
-    CONSTRAINT fk_bank_account_registrations_01 FOREIGN KEY (user_code) REFERENCES users (user_code),
-    CONSTRAINT ck_bank_account_registrations_01 CHECK (bank_registration_status IN ('registered', 'unregistered', 'pending')),
-    CONSTRAINT ck_bank_account_registrations_02 CHECK (deleted_flag = FALSE OR deleted_at IS NOT NULL)
+CREATE TABLE distributions (
+    _id STRING HASH KEY,
+    user_id STRING,
+    notice_id STRING,
+    fiscal_year STRING,
+    contribution_balance NUMBER,
+    dividend_amount NUMBER,
+    dividend_rate NUMBER,
+    receipt_status STRING,
+    receipt_method_id STRING,
+    version STRING,
+    created_at STRING,
+    updated_at STRING,
+    created_by STRING,
+    updated_by STRING,
+    is_deleted BOOLEAN
+)
+WITH (
+    billing_mode = 'PAY_PER_REQUEST',
+    global_secondary_indexes = [
+        {
+            name = 'gsi_user_notice',
+            partition_key = 'user_id',
+            sort_key = 'notice_id'
+        }
+    ]
 );
 ```
 
-## 7. 前提・要確認事項
-- 本設計は DynamoDB を前提とするため、FK、UNIQUE、CHECK は物理制約ではなく、アプリケーション制御または条件付き更新で実装する前提である。
-- `user_code` は外部連携済みの組合員コードを利用する前提とし、採番ルールは別途定義が必要である。
-- `notice_id`、`dividend_info_id`、`bank_account_registration_id` は UUID 形式を想定している。
-- `notification_method`、`user_status`、`account_status`、`publication_status`、`receipt_status`、`receipt_method`、`bank_registration_status` のコード値は実装前にマスタ値定義と API レスポンス仕様で確定が必要である。
-- `dividend_notices` のユニーク制約を `fiscal_year + title` としたが、同一年度に複数のお知らせを許容する場合は業務要件に応じて見直しが必要である。
-- `bank_account_registrations` には口座番号を保持していない。要件上必要であればマスキング方針、暗号化方式、保持可否を別途設計する必要がある。
-- `dividend_infos` を 1 お知らせ 1 ユーザ 1 レコードとしたが、同一年度で複数明細を保持する要件がある場合は中間明細テーブルの追加が必要である。
-- 監査カラムの `created_by`、`updated_by` は操作主体の `user_code` またはバッチ識別子を格納する前提である。
-- 論理削除を採用した `users`、`dividend_notices`、`bank_account_registrations` については、一覧・検索 API で `deleted_flag = false` を標準条件とする必要がある。
-- DynamoDB 実装時はテーブル単位課金、GSI 数、アクセス頻度に応じてプロビジョンドキャパシティまたはオンデマンド課金を選定する必要がある。
+## 6. 前提・要確認事項
+
+1. `dividend_notices` の公開対象は現行 ER では全組合員共通のお知らせとして整理した。組合員別公開制御が必要な場合は対象者属性または配信テーブル追加が必要である。
+2. `users.bank_account_info` は自由記述のままとした。銀行名、支店名、口座種別、口座番号へ分割する必要がある場合は属性追加を行う。
+3. `users` 更新時の競合制御項目は ER に未定義のため本書では追加していない。マイページ更新の同時更新対策が必要な場合は `version` 追加を検討する。
+4. `receipt_status`、`publication_status` の候補値は処理設計から推定した案であり、正式なコード体系は別途定義が必要である。
+5. `gsi_email` と `gsi_notice_user` は現行 API では必須ではない。運用検索や重複チェック要件が確定した段階で採用可否を決定する。
+6. DynamoDB では物理 FK 制約を持てないため、削除時の参照整合性はサービス層で事前チェックする必要がある。
