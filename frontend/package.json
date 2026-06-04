@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "type": "module",
 
+  "engines": {
+    "node": ">=24.16.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
