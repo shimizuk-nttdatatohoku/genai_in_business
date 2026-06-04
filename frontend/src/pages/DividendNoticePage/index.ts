@@ -1,0 +1,1 @@
+export { DividendNoticePage } from './DividendNoticePage'
