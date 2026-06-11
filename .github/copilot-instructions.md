@@ -1,55 +1,12 @@
 # GitHub Copilot Instructions
 
-## プロジェクト概要
+> プロジェクト詳細・規約・ビルド手順は `AGENTS.md` を正本とする。
 
-本プロジェクトは生成AI実業務適用のリポジトリです。
+## VS Code 補完向け要点
 
-## 技術スタック
-
-- **フロントエンド**: React (TypeScript)
-- **バックエンド**: Python
-- **共通型定義**: TypeScript (`shared/types/`)
-
-## コーディング規約
-
-### TypeScript / React
-- `shared/types/` の型定義を積極的に再利用してください
-- 関数コンポーネントを使用し、型定義を必ず付けてください
-- ESLint / Prettier の設定に従ってください
-
-### Python
-- 型ヒント (Type Hints) を必ず使用してください
-- docstring を関数・クラスに記述してください
-- PEP 8 に準拠してください
-
-## ディレクトリ構成
-
-```
-project-root/
-├── docs/           # 要件・設計ドキュメント
-├── frontend/       # React (TypeScript) フロントエンド
-│   ├── src/        # ソースコード
-│   └── tests/      # フロントエンドテスト
-├── backend/        # Python バックエンド
-│   ├── app/        # アプリケーションコード
-│   └── tests/      # バックエンドテスト
-├── shared/         # 共通定義
-│   └── types/      # 共通型定義
-├── prompts/        # 生成AI用プロンプトテンプレート
-└── .github/        # GitHub Actions ワークフロー
-```
-
-## 参照すべきドキュメント
-
-- 要件定義: `docs/requirements.md`
-- アーキテクチャ: `docs/architecture.md`
-- API 仕様: `docs/api.yaml`
-- テスト仕様: `docs/test-spec.md`
-
-## 生成AI活用ガイド
-
-コード生成や設計支援には `prompts/` 配下のプロンプトテンプレートを活用してください。
-
-- 設計: `prompts/design.md`
-- 実装: `prompts/implement.md`
-- テスト: `prompts/test.md`
+- **言語**: フロントエンド TypeScript/React、バックエンド Python + FastAPI
+- **DB**: Amazon DynamoDB（テーブル: `members`, `distributions`）
+- **実行環境**: AWS Lambda（`app/handlers/` 配下にハンドラを集約）
+- **型定義共有**: `shared/types/` を再利用すること
+- コードコメント・変数名は英語、ユーザー向けメッセージは日本語
+- 詳細規約は `docs/rules/` を参照
