@@ -4,9 +4,10 @@
 > プロジェクトの文脈・規約・ワークフローを理解するための指示書です。
 > リポジトリルートに配置し、常に最新の状態を維持してください。
 
-
 ## プロジェクト概要（Project Overview）
+
 ### 概要
+
 | 項目 | 内容 |
 |------|------|
 | **アプリ名** | 組合員情報・配布金管理 Web アプリ |
@@ -23,7 +24,6 @@
 | DB | Amazon DynamoDB (NoSQL) | インフラコード参照 |
 | サーバー | AWS Lambda | インフラコード参照 |
 
-
 ### ドメイン用語集
 
 | 用語 | 説明 |
@@ -32,8 +32,6 @@
 | 組合員情報 | 氏名・住所・連絡先など組合員に紐づく基本情報 |
 | 配布金 | 組合から組合員へ配布される金銭 |
 | 配布金取得方法 | 口座振込・窓口受取など、配布金の受取手段の設定情報 |
-
----
 
 ## ディレクトリ構造（Directory Structure）
 
@@ -91,10 +89,11 @@ python infra/scripts/create_local_tables.py
 ```
 
 ### 環境変数
+
 `.env.example` をコピーして `.env.local`（フロント）と `.env`（バックエンド）を作成する。
 **実際のシークレットや AWS キーを `.env` ファイルにハードコードしないこと。**
 
-```
+```bash
 # backend/.env
 DYNAMODB_ENDPOINT=http://localhost:8000   # ローカルのみ
 DYNAMODB_REGION=ap-northeast-1
@@ -102,6 +101,7 @@ MEMBERS_TABLE=members
 DISTRIBUTIONS_TABLE=distributions
 JWT_SECRET=<ローカル開発用のみ設定>
 ```
+
 ### テスト実行コマンド
 
 ```bash
@@ -118,29 +118,33 @@ cd backend && pytest --cov=app --cov-report=term-missing
 ---
 
 ## コーディング規約（Code Style）
+
 ### 共通
+
 - コードコメント・変数名・関数名はすべて **英語**
 - ユーザ向けのメッセージ・ラベルは **日本語**
 - 命名規則は、docs\rules\common\naming-rule.md を正本とする。
 - 環境依存値や固定URLの扱いは、docs\rules\common\implementation-rule.md を正本とする。
 
 ### TypeScript / React
+
 - TypeScript / React の実装規約は、docs\rules\development\frontend-rule.md を正本とする。
 
 ### Python
+
 - Python の実装規約は、docs\rules\development\backend-rule.md を正本とする。
 
 ### Lambda
+
 - ハンドラ関数は `app/handlers/` に集約する
 - ハンドラ関数のシグネチャ: `async def handler(event: dict, context: LambdaContext) -> dict`
 - 関数の実行時間制限は **900 秒** を想定（タイムアウト設定に注意）
 - Lambda の実装規約は、docs\rules\development\serverless-rule.md を正本とする。
 
----
-
 ## テスト指示（Testing Instructions）
 
-### フロントエンド
+### フロントエンドテストケース
+
 #### React Testing Library（ユニット・コンポーネントテスト）
 
 - フロントエンドテストの実装規約は、docs\rules\development\test-rule.md を正本とする。
@@ -155,7 +159,9 @@ test('組合員名が表示される', () => {
   expect(screen.getByText('山田 太郎')).toBeInTheDocument()
 })
 ```
-### バックエンド
+
+### バックエンドテストケース
+
 #### pytest
 
 - カバレッジ目標: **80% 以上**
@@ -198,17 +204,14 @@ test('組合員情報を更新できる', async ({ page }) => {
 })
 ```
 
-
-
 ## 禁止事項（Boundaries）
+
 - `.env` ファイルはローカル開発のみ使用し、絶対に Git にコミットしない
 - `.gitignore` に `.env` が含まれていることを常に確認する
 - 組合員情報（氏名・住所・口座番号等）は **個人情報** として厳格に扱う
 - ログに個人情報を出力しない（マスキング処理を行う）
 - データベースのマイグレーションを自動実行しない
 
-
----
 
 
 > **Note**: このファイルはプロジェクトの進化に合わせて継続的に更新してください。
