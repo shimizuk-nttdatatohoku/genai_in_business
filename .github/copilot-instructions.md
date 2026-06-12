@@ -1,55 +1,63 @@
 # GitHub Copilot Instructions
 
-## プロジェクト概要
+> プロジェクト詳細・規約・ビルド手順は `AGENTS.md` を正本とする。
 
-本プロジェクトは生成AI実業務適用のリポジトリです。
+## VS Code 補完向け要点
 
-## 技術スタック
+- **言語**: フロントエンド TypeScript/React、バックエンド Python + FastAPI
+- **DB**: Amazon DynamoDB（テーブル: `members`, `distributions`）
+- **実行環境**: AWS Lambda（`app/handlers/` 配下にハンドラを集約）
+- **型定義共有**: `shared/types/` を再利用すること
+- コードコメント・変数名は英語、ユーザー向けメッセージは日本語
+- 詳細規約は `docs/rules/` を参照
 
-- **フロントエンド**: React (TypeScript)
-- **バックエンド**: Python
-- **共通型定義**: TypeScript (`shared/types/`)
+---
 
-## コーディング規約
+## 命名規則 クイックリファレンス
 
-### TypeScript / React
-- `shared/types/` の型定義を積極的に再利用してください
-- 関数コンポーネントを使用し、型定義を必ず付けてください
-- ESLint / Prettier の設定に従ってください
+| 対象 | 規則 | OK例 | NG例 |
+|------|------|------|------|
+| React Component / ファイル | PascalCase | `UserList.tsx` | `userList.tsx` |
+| hooks | `use` prefix + camelCase | `useAuth.ts` | `auth.ts` |
+| Props interface | `[Component名]Props` | `UserListProps` | `Props` |
+| Boolean 変数 | `is`/`has`/`can` prefix | `isLoading` | `loadingFlag` |
+| Python ファイル | snake_case | `user_service.py` | `UserService.py` |
+| Python クラス | PascalCase | `UserService` | `user_service` |
+| Python 関数 | snake_case | `get_user()` | `getUser()` |
+| DB フィールド | snake_case | `user_name` | `userName` |
+| DB 日時フィールド | `_at` suffix | `created_at` | `createdDate` |
+| DB ID フィールド | `_id` suffix | `member_id` | `memberId` |
+| テスト名 | 日本語 + 正常系/異常系明示 | `正常系_ログイン成功` | `login_success` |
 
-### Python
-- 型ヒント (Type Hints) を必ず使用してください
-- docstring を関数・クラスに記述してください
-- PEP 8 に準拠してください
+---
 
-## ディレクトリ構成
+## 禁止事項
 
-```
-project-root/
-├── docs/           # 要件・設計ドキュメント
-├── frontend/       # React (TypeScript) フロントエンド
-│   ├── src/        # ソースコード
-│   └── tests/      # フロントエンドテスト
-├── backend/        # Python バックエンド
-│   ├── app/        # アプリケーションコード
-│   └── tests/      # バックエンドテスト
-├── shared/         # 共通定義
-│   └── types/      # 共通型定義
-├── prompts/        # 生成AI用プロンプトテンプレート
-└── .github/        # GitHub Actions ワークフロー
-```
+### Backend（Python）
 
-## 参照すべきドキュメント
+- Router に業務ロジックを書く（Service に書く）
+- Repository に業務ロジックを書く
+- `print()` デバッグ（`logger` を使う）
+- グローバル状態への依存
+- Lambda 常駐前提のコード（ステートレス設計）
+- Secret / URL のハードコード（`os.getenv` を使う）
 
-- 要件定義: `docs/requirements.md`
-- アーキテクチャ: `docs/architecture.md`
-- API 仕様: `docs/api.yaml`
-- テスト仕様: `docs/test-spec.md`
+### Frontend（TypeScript/React）
 
-## 生成AI活用ガイド
+- Component から直接 `fetch`（`services` 層経由）
+- `any` 型の使用
+- `console.log` を実装に残す
+- `useEffect` の乱用
+- 複数の UI 責務を 1 Component に混在
 
-コード生成や設計支援には `prompts/` 配下のプロンプトテンプレートを活用してください。
+---
 
-- 設計: `prompts/design.md`
-- 実装: `prompts/implement.md`
-- テスト: `prompts/test.md`
+## DynamoDB 共通パターン
+
+全テーブル（`members`, `distributions`）に必須の共通フィールド:
+
+- `created_at` / `updated_at`（ISO 8601 形式）
+- `created_by` / `updated_by`
+- `is_deleted`（論理削除フラグ、通常検索では除外）
+
+Boolean フィールドは必ず `is_` prefix を付ける。
