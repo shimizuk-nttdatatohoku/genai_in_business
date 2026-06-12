@@ -10,15 +10,15 @@ E2Eテスト用のDynamoDB初期投入データを生成してください。
 - テストコード（.spec.ts）：
 
 - DynamoDBテーブル設計書：
-  - #file:docs\ExternalDesign\product\database_design.md
-  - #file:docs\ExternalDesign\product\er_diargram.md
+  - #file:docs\external-design\product\database-design.md
+  - #file:docs\external-design\product\er-diargram.md
   - #file:backend  
   **セッション管理用テーブルは設計書に記載が無いため、実装を参照する**
 
 - API設計書：
 
-  - #file:docs\ExternalDesign\product\api_catalog.md
-  - #file:docs\ExternalDesign\product\interface_design.md
+  - #file:docs\external-design\product\api-catalog.md
+  - #file:docs\external-design\product\interface-design.md
 
 - 規約/ルール
   - #file:docs\rules\development\test-rule.md

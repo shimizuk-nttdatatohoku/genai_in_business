@@ -30,6 +30,6 @@
 
 ## 出力形式（必須）
 
-- #createFile sequence_diagram.md の名前でファイルを作成し `docs\ExternalDesign\product` フォルダ内に格納する
+- #createFile sequence-diagram.md の名前でファイルを作成し `docs\external-design\product` フォルダ内に格納する
 - Markdown形式(.md)で出力する
-- フォーマットは #file:fm_sequence_diagram.md を参照する
+- フォーマットは #file:fm-sequence-diagram.md を参照する

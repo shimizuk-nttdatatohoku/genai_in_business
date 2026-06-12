@@ -19,29 +19,33 @@
 以下のファイルを読み、優先順位順に解釈してください。
 
 ### 1.1 実装・試験ルール
+
 - #file:docs\rules\development\test-rule.md
 - #file:docs\rules\development\frontend-rule.md
 - #file:docs\rules\common\naming-rule.md
 - #file:AGENTS.md
 
 ### 1.2 画面・API 設計
-- #file:docs\ED\product\screen_design.md
-- #file:docs\ED\product\api_catalog.md
-- #file:docs\ED\product\interface_design.md
-- #file:docs\ED\product\process-design\LGN_001_process-design.md
-- #file:docs\ED\product\process-design\LGN_002_process-design.md
-- #file:docs\ED\product\process-design\TOP_001_process-design.md
-- #file:docs\ED\product\process-design\DIV_001_process-design.md
-- #file:docs\ED\product\process-design\DIV_002_process-design.md
-- #file:docs\ED\product\process-design\MYP_001_process-design.md
+
+- #file:docs\external-design\product\screen-design.md
+- #file:docs\external-design\product\api-catalog.md
+- #file:docs\external-design\product\interface-design.md
+- #file:docs\external-design\product\process-design\lgn-001-process-design.md
+- #file:docs\external-design\product\process-design\lgn-002-process-design.md
+- #file:docs\external-design\product\process-design\top-001-process-design.md
+- #file:docs\external-design\product\process-design\div-001-process-design.md
+- #file:docs\external-design\product\process-design\div-002-process-design.md
+- #file:docs\external-design\product\process-design\myp-001-process-design.md
 
 ### 1.3 既存テストコード・セットアップ
+
 - #file:frontend\tests\setup.ts
 - #file:frontend\tests\App.test.tsx
 - #file:frontend\tests\DividendNoticePage.test.tsx
 - #file:frontend\tests\MyPage.test.tsx
 
 ### 1.4 MSW モック
+
 - #file:frontend\src\mocks\server.ts
 - #file:frontend\src\mocks\handlers.ts
 
@@ -54,6 +58,7 @@
 以下のルールに従い、`frontend/tests/` 配下の既存テストコードを修正・補完してください。
 
 #### 実装ルール
+
 - Vitest + React Testing Library を使用する
 - `MemoryRouter` でルーティングをラップして各画面をテストする
 - API モックには MSW（`server.use(...)`）を使用し、DB 直接操作は行わない
@@ -62,6 +67,7 @@
 - `screen.getByRole` / `screen.getByLabelText` / `screen.getByText` を優先する
 
 #### テスト観点（以下をすべてカバーする）
+
 | 観点 | 内容 |
 |------|------|
 | 初期表示 | ページ遷移後に期待する要素が表示されること |
@@ -73,6 +79,7 @@
 | ローディング | リクエスト中にローディング表示が出ること |
 
 #### 対象画面（全 4 画面）
+
 | 画面ID | ファイル | ルート |
 |--------|---------|--------|
 | LGN-001 | `tests/App.test.tsx` | `/` |
@@ -81,6 +88,7 @@
 | MYP-001 | `tests/MyPage.test.tsx` | `/my-page` |
 
 #### 出力先
+
 - `frontend/tests/App.test.tsx`
 - `frontend/tests/DividendNoticePage.test.tsx`
 - `frontend/tests/MyPage.test.tsx`
@@ -94,6 +102,7 @@
 ステップ 1 で生成・修正したテストコードを分析し、以下の形式で試験項目書を生成してください。
 
 #### 出力先
+
 `docs/tests/UT/product/UT_frontend_items.md`
 
 #### フォーマット
@@ -121,6 +130,7 @@
 ```
 
 #### ステータス値
+
 - `未実施` — 試験実施前（デフォルト）
 - `成功` — PASS
 - `失敗` — FAIL
@@ -140,6 +150,7 @@ npm run test -- --reporter=verbose 2>&1
 ```
 
 #### 反映ルール
+
 1. 各テストの結果（PASS / FAIL / SKIP）をステータス列に転記する
 2. サマリーの実施総数・成功・失敗・未実施を集計して更新する
 3. FAIL のテストがある場合はその原因を試験項目書の備考欄に記載する
@@ -148,7 +159,7 @@ npm run test -- --reporter=verbose 2>&1
 
 ## 5. 注意事項
 
-- 追加質問はせず、参照ファイルの優先順位に従って合理的な前提を置くこと
-- 個人情報（氏名・住所）をテストデータとして過度に含めないこと
-- 既存テストを削除しないこと（修正・追記のみ）
-- 試験項目書は必ずテストコード生成後に作成すること（コードが正本）
+- 追加質問はせず、参照ファイルの優先順位に従って合理的な前提を置く
+- 個人情報（氏名・住所）をテストデータとして過度に含めない
+- 既存テストを削除しない（修正・追記のみ）
+- 試験項目書は必ずテストコード生成後に作成する（コードが正本）

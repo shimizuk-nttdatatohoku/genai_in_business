@@ -58,7 +58,7 @@
 
 ### 出力先
 
-`docs\tests\ST\items`
+`docs\tests\system-test\items`
 
 ### フォーマット
 

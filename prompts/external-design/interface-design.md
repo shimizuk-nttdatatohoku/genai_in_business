@@ -7,7 +7,7 @@
 
 ## インプット（requirements フォルダ）
 
-- 画面イメージ（画像 .png）**このpngは私がCopilot Chatに直接添付します。添付された画像内容（登場人物・手順・分岐・例外）を読み取って反映します。**
+- 画面イメージ（画像 .png）**pngはプロンプトを実行するユーザがCopilot Chatに直接添付します。添付された画像内容（登場人物・手順・分岐・例外）を読み取って反映してください**
 - 要件定義書（.md）: #file:requirements.md
 - 機能一覧（.md）: #file:function-list.md
 
@@ -48,4 +48,4 @@
 
 - #createFile interface-design.md の名前でファイルを作成し、`docs\external-design\product` フォルダ内に格納する
 - Markdown形式(.md)で出力する
-- フォーマットは #file:fm_interface_design.md を参照する
+- フォーマットは #file:fm-interface-design.md を参照する

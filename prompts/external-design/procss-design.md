@@ -29,7 +29,7 @@
 ## ファイル作成ルール（必須）
 
 - 出力するファイルパスは以下の命名規則で提示する（機能IDが無い場合は機能名を英語スラッグ化）：
-  - [FUNCTION_ID]_.md
+  - [FUNCTION_ID].md
   例）fn-001-process-design.md
 
 ## 前提（業務Web）
@@ -87,4 +87,4 @@
 
 - `docs\external-design\product\process-design` フォルダ内に格納する
 - Markdown形式(.md)で出力する
-- フォーマットは #file:fm_process_design.md を参照する
+- フォーマットは #file:fm-process-design.md を参照する
