@@ -1,3 +1,8 @@
+---
+name: "DB設計書（物理設計）を作成する"
+description: "ER図をもとにDynamoDBの物理DB設計書を生成する"
+---
+
 # DB設計プロンプト
 
 ## 役割

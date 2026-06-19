@@ -1,3 +1,8 @@
+---
+name: "API一覧を作成する"
+description: "機能一覧・インタフェース設計書をもとにAPI一覧（api-catalog.md）を生成する"
+---
+
 # API設計書作成プロンプト
 
 ## 役割
