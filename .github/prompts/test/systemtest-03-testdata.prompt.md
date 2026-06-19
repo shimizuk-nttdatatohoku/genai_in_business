@@ -1,6 +1,6 @@
 ---
-name: "E2Eテスト用試験データを作成する"
-description: "DynamoDB初期投入データ（JSON/CSV形式）をE2Eテストケースに合わせて生成する"
+name: "ST-03 E2Eテスト用試験データを作成する"
+description: "テストコードをもとにDynamoDB初期投入データ（JSON/CSV形式）を生成する。ST-02のテストコード生成後に実施する。"
 ---
 
 # E2Eテスト用試験データ作成プロンプト
@@ -13,6 +13,7 @@ E2Eテスト用のDynamoDB初期投入データを生成してください。
 ## 参照ドキュメント
 
 - テストコード（.spec.ts）：
+  - #file:frontend\tests\e2e
 
 - DynamoDBテーブル設計書：
   - #file:docs\external-design\product\database-design.md
@@ -21,7 +22,6 @@ E2Eテスト用のDynamoDB初期投入データを生成してください。
   **セッション管理用テーブルは設計書に記載が無いため、実装を参照する**
 
 - API設計書：
-
   - #file:docs\external-design\product\api-catalog.md
   - #file:docs\external-design\product\interface-design.md
 
