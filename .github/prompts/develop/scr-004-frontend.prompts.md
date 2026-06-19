@@ -1,4 +1,9 @@
-# SCR-003_出資配当金お知らせ画面を実装する
+---
+name: "SCR-004 マイページ画面を実装する"
+description: "マイページ画面（MYP-001）をReact/TypeScriptで実装する"
+---
+
+# SCR-004_マイページ画面を実装する
 
 /docs/external-design/product配下の設計書をもとにReact/Typescriptで実装する
 

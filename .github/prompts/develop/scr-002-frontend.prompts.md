@@ -1,4 +1,9 @@
-# SCR-004_マイページ画面を実装する
+---
+name: "SCR-002 トップ画面を実装する"
+description: "トップ画面（TOP-001）をReact/TypeScriptで実装する"
+---
+
+# SCR-002_トップ画面を実装する
 
 /docs/external-design/product配下の設計書をもとにReact/Typescriptで実装する
 

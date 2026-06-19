@@ -1,4 +1,9 @@
-# SCR-002_トップ画面を実装する
+---
+name: "SCR-003 出資配当金お知らせ画面を実装する"
+description: "出資配当金お知らせ画面（DIV-001/002）をReact/TypeScriptで実装する"
+---
+
+# SCR-003_出資配当金お知らせ画面を実装する
 
 /docs/external-design/product配下の設計書をもとにReact/Typescriptで実装する
 

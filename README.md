@@ -4,6 +4,7 @@
 
 ## ディレクトリ構成
 
+```text
 project-root/
 ├── AGENTS.md                 # プロジェクト運用・開発ルール
 ├── README.md
@@ -34,18 +35,18 @@ project-root/
 │   │   ├── pages/            # 画面コンポーネント
 │   │   └── types/            # フロントエンド用型定義
 │   └── tests/                # フロントエンドテスト / E2E
-├── prompts/                  # 生成AI向けプロンプト
-│   ├── develop/              # 実装用プロンプト
-│   ├── ExternalDesign/       # 設計用プロンプト
-│   ├── test/                 # テスト用プロンプト
-│   └── test.md               # テスト共通プロンプト
+├── .github/
+│   ├── prompts/              # GitHub Copilot 向けプロンプト
+│   │   ├── develop/          # 実装用プロンプト
+│   │   ├── external-design/  # 設計用プロンプト
+│   │   ├── review/           # レビュー用プロンプト
+│   │   └── test/             # テスト用プロンプト
+│   ├── copilot-instructions.md
+│   ├── instructions/         # Copilot 向け追加指示
+│   └── workflows/            # GitHub Actions ワークフロー
 ├── shared/
 │   └── types/                # 共通型定義
 ├── tests/                    # テスト観点・成果物
-└── .github/
-	├── copilot-instructions.md
-	├── instructions/         # Copilot 向け追加指示
-	└── workflows/            # GitHub Actions ワークフロー
 ```
 
 ## ドキュメント
@@ -58,12 +59,12 @@ project-root/
 
 ## 生成AI活用
 
-`prompts/` 配下のプロンプトテンプレートを使用して、設計・実装・テストを効率化できます。
+`.github/prompts/` 配下のプロンプトテンプレートを使用して、設計・実装・テスト・レビューを効率化できます。
 
-- [実装用プロンプト](prompts/develop/)
-- [設計用プロンプト](prompts/ED/)
-- [テスト用プロンプト](prompts/test/)
-- [共通テストプロンプト](prompts/test.md)
+- [実装用プロンプト](.github/prompts/develop/)
+- [設計用プロンプト](.github/prompts/external-design/)
+- [レビュー用プロンプト](.github/prompts/review/)
+- [テスト用プロンプト](.github/prompts/test/)
 
 ## 補足
 
