@@ -1,6 +1,6 @@
 ---
-name: "システムテストコードを生成する"
-description: "Playwrightを使ったE2Eテストコードを設計書・観点表をもとに生成する"
+name: "ST-02 システムテストコードを生成する"
+description: "観点表・設計書をもとにPlaywrightのE2Eテストコードを生成する。ST-01の観点表作成後に実施する。"
 ---
 
 # システムテスト テストコード生成プロンプト
@@ -12,11 +12,12 @@ description: "Playwrightを使ったE2Eテストコードを設計書・観点�
 
 ## 参照ドキュメント
 
+- テスト観点表：
+  - #file:docs\tests\system-test\items\systemtest-testview.md
 - 画面設計書：
   - #file:docs\external-design\product\screen-design.md
 - 基本設計書：
   - #file:docs\external-design\product\sequence-diagram.md
-
 - 機能設計書：
   - #file:docs\external-design\product\process-design\process-design
 - API設計
@@ -55,7 +56,7 @@ description: "Playwrightを使ったE2Eテストコードを設計書・観点�
    - エラー表示の検証も含める
 
 3. テストケースの網羅
-   - `docs\tests\system-test\items\sttest-testview.md` システムテスト観点表に記載されている観点を網羅する
+   - `docs\tests\system-test\items\systemtest-testview.md` のテスト観点表に記載されている観点を網羅する
    - 正常系（代表的な主フロー）
    - 準正常系（バリデーションエラー、権限エラー）
    - 異常系（APIエラー時のUI挙動）
@@ -67,11 +68,11 @@ description: "Playwrightを使ったE2Eテストコードを設計書・観点�
 
 5. スクリーンショット
    - 入力画面、結果画面のスクリーンショットを取得し、証跡として残す
-   - スクリーンショットは、`docs\tests\system-test\evidence`に格納する
+   - スクリーンショットは、`docs\tests\system-test\evidence` に格納する
    - スクリーンショットのファイル名は、画面設計書に記載された画面IDと紐づける
 
 6. 設定ファイル
-   - `frontend\playwright.config.ts`の内容を適宜変更する
+   - `frontend\playwright.config.ts` の内容を適宜変更する
    - 使用するユーザについては、別工程で作成するため、機能にあった任意のID、passwordを設定する
 
 ## 出力形式

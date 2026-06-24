@@ -48,5 +48,5 @@ description: "要件定義書・機能一覧・処理設計書をもとにER図�
 ## 出力形式（必須：Markdown）
 
 - #createFile er-diargram.md の名前でファイルを作成し `docs\external-design\product` フォルダ内に格納する
-- Markdown形式(.md)で出力する。
+- Markdown形式(.md)で出力する
 - フォーマットは #file:fm-er-diargram.md を参照する

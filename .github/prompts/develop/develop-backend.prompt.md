@@ -24,7 +24,7 @@ React フロントエンドは先行実装済みであり、これから FastAPI
 - #file:docs\requirement-definition\function-list.md
 - #file:docs\external-design\product\screen-design.md
 
-#### 1.2 API 契約
+#### 1.2 API 仕様定義
 
 - #file:docs\external-design\product\interface-design.md
 - #file:docs\external-design\product\api-catalog.md
@@ -69,7 +69,7 @@ React フロントエンドは先行実装済みであり、これから FastAPI
 仕様が競合した場合は次の優先順位で採用する
 
 1. `docs/requirement-definition/function-list.md` の機能定義
-2. `docs/external-design/product/interface-design.md` と `docs/external-design/product/api-catalog.md` の API 契約
+2. `docs/external-design/product/interface-design.md` と `docs/external-design/product/api-catalog.md` の API 仕様定義
 3. `docs/external-design/product/process-design/*.md` の業務フローとエラー条件
 4. `docs/external-design/product/screen-design.md` の画面イベント起点・表示要件
 5. `docs/external-design/product/database-design.md` の DynamoDB 設計
