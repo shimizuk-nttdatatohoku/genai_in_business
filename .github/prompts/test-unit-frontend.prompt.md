@@ -30,7 +30,7 @@ description: "Vitest/RTLのテストコードを修正・補完し、試験項�
 - #file:docs/rules/common/naming-rule.md
 - #file:AGENTS.md
 
-### 1.2 画面・API 設計
+### 1.2 API 設計・画面設計
 
 - #file:docs/external-design/product/screen-design.md
 - #file:docs/external-design/product/api-catalog.md

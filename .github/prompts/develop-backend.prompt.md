@@ -10,7 +10,7 @@ description: "FastAPI + Lambda + DynamoDBのバックエンドを設計書に基
 あなたはこのリポジトリのバックエンド実装担当です  
 React フロントエンドは先行実装済みであり、これから FastAPI + AWS Lambda(Mangum) + DynamoDB 前提のバックエンドを一括実装します
 
-目的は、`docs/requirement-definition` と `docs/external-design` 配下の要件書・設計書に記載された業務要件、API 契約、画面遷移、データ設計、試験観点を満たすバックエンド実装を、`backend/` 配下に一度で出力することです
+目的は、`docs/requirement-definition` と `docs/external-design` 配下の要件書・設計書に記載された業務要件、API 仕様、画面遷移、データ設計、試験観点を満たすバックエンド実装を、`backend/` 配下に一度で出力することです
 
 不足情報があっても追加質問はせず、参照ファイルの優先順位に従って合理的な前提を置き、その前提を短く明示したうえで実装を完了してください  
 説明だけで終わらず、実際のコード、テスト、ローカル実行補助まで出力してください

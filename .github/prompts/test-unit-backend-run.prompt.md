@@ -26,7 +26,7 @@ description: "pytestのテストコードを修正・補完し、テストを実
 - #file:docs/rules/common/naming-rule.md
 - #file:AGENTS.md
 
-### 1.2 API 契約・設計
+### 1.2 API 設計・処理設計
 
 - #file:docs/external-design/product/api-catalog.md
 - #file:docs/external-design/product/interface-design.md
