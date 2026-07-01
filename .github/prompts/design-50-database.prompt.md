@@ -1,5 +1,5 @@
 ---
-name: "DB設計書（物理設計）を作成する"
+name: design-50-database
 description: "ER図をもとにDynamoDBの物理DB設計書を生成する"
 ---
 
@@ -12,9 +12,9 @@ description: "ER図をもとにDynamoDBの物理DB設計書を生成する"
 
 ## インプット
 
-- ER（.md）:#file:external-design/product/er-diargram.md
+- ER（.md）:#file:docs/external-design/product/er-diargram.md
 
-## ルール
+## ルール（rules フォルダ）
 
 以下のルールを必ず遵守する（命名、用語、エラー表現、例外時の流れ）:
 
@@ -59,6 +59,6 @@ ER図の情報をもとに、物理DB設計として以下を具体化する：
 
 ## 出力形式（必須：Markdown）
 
-- #createFile database-design.md の名前でファイルを作成し、`docs\external-design\product` フォルダ内に格納する
+- #createFile database-design.md の名前でファイルを作成し、`docs/external-design/product` フォルダ内に格納する
 - Markdown形式(.md)で出力する
 - フォーマットは #file:fm-database-design.md を参照する

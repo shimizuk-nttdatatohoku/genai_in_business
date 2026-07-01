@@ -1,5 +1,5 @@
 ---
-name: "ER図を作成する"
+name: design-40-er-diargram
 description: "要件定義書・機能一覧・処理設計書をもとにER図（Mermaid形式）を生成する"
 ---
 
@@ -13,11 +13,11 @@ description: "要件定義書・機能一覧・処理設計書をもとにER図�
 
 ## インプット
 
-- 要件定義書（.md）: #file:requirements.md
-- 機能一覧（.md）: #file:function-list.md
-- 処理設計（.md）: #file:process-design のフォルダ内の全ファイル
+- 要件定義書（.md）: #file:docs/requirement-definition/requirements.md
+- 機能一覧（.md）: #file:docs/requirement-definition/function-list.md
+- 処理設計（.md）: #file:docs/process-design のフォルダ内の全ファイル
 
-## ルール
+## ルール（rules フォルダ）
 
 以下のルールを必ず遵守する（命名、用語、エラー表現、DB設計方針）:
 
@@ -47,6 +47,6 @@ description: "要件定義書・機能一覧・処理設計書をもとにER図�
 
 ## 出力形式（必須：Markdown）
 
-- #createFile er-diargram.md の名前でファイルを作成し `docs\external-design\product` フォルダ内に格納する
+- #createFile er-diargram.md の名前でファイルを作成し `docs/external-design/product` に格納する
 - Markdown形式(.md)で出力する
 - フォーマットは #file:fm-er-diargram.md を参照する

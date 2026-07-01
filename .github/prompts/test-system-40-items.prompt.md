@@ -1,5 +1,5 @@
 ---
-name: "ST-04 システムテスト項目書を作成する"
+name: test-system-40-items
 description: "Playwrightテストコードを分析してシステムテスト項目書（Markdown）を生成する。ST-02のテストコード生成後に実施する。"
 ---
 
@@ -11,7 +11,7 @@ description: "Playwrightテストコードを分析してシステムテスト�
 
 ## ステップ概要
 
-1. **Playwright テストコード確認** — `frontend\tests\e2e\` 配下の既存 `.spec.ts` を確認する
+1. **Playwright テストコード確認** — `frontend/tests/e2e/` 配下の既存 `.spec.ts` を確認する
 2. **システムテスト項目書作成** — テストコードを正本として Markdown のシステムテスト項目書を生成する
 
 ## 1. 最初に読む参照ファイル
@@ -20,31 +20,31 @@ description: "Playwrightテストコードを分析してシステムテスト�
 
 ### 1.1 実装・テストルール
 
-- #file:docs\rules\development\test-rule.md
-- #file:docs\rules\development\frontend-rule.md
-- #file:docs\rules\common\error-rule.md
-- #file:docs\rules\common\naming-rule.md
+- #file:docs/rules/development/test-rule.md
+- #file:docs/rules/development/frontend-rule.md
+- #file:docs/rules/common/error-rule.md
+- #file:docs/rules/common/naming-rule.md
 - #file:AGENTS.md
 
 ### 1.2 画面・設計資料
 
-- #file:docs\external-design\product\screen-design.md
-- #file:docs\external-design\product\interface-design.md
-- #file:docs\external-design\product\api-catalog.md
+- #file:docs/external-design/product/screen-design.md
+- #file:docs/external-design/product/interface-design.md
+- #file:docs/external-design/product/api-catalog.md
 
 ### 1.3 E2E テストコード・設定
 
-- #file:frontend\playwright.config.ts
-- #file:frontend\tests\e2e\login.spec.ts
-- #file:frontend\tests\e2e\top.spec.ts
-- #file:frontend\tests\e2e\dividend-notice.spec.ts
-- #file:frontend\tests\e2e\my-page.spec.ts
-- #file:frontend\tests\e2e\smoke.spec.ts
+- #file:frontend/playwright.config.ts
+- #file:frontend/tests/e2e/login.spec.ts
+- #file:frontend/tests/e2e/top.spec.ts
+- #file:frontend/tests/e2e/dividend-notice.spec.ts
+- #file:frontend/tests/e2e/my-page.spec.ts
+- #file:frontend/tests/e2e/smoke.spec.ts
 
 ## 2. テストコード確認
 
-- `frontend\tests\e2e\` 配下の `.spec.ts` を対象とする
-- `support\` 配下は補助コードとして扱い、テスト項目の母集団には含めない
+- `frontend/tests/e2e/` 配下の `.spec.ts` を対象とする
+- `support/` 配下は補助コードとして扱い、テスト項目の母集団には含めない
 - `test.describe()` を画面または機能単位のセクションとして扱う
 - `test()` を 1 テスト項目として扱う
 - `test.step()` が存在する場合は、テスト手順へそのまま反映する
@@ -56,7 +56,7 @@ description: "Playwrightテストコードを分析してシステムテスト�
 
 ### 出力先
 
-`docs\tests\system-test\items`
+`docs/tests/system-test/items`
 
 ### フォーマット
 

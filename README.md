@@ -19,10 +19,7 @@ project-root/
 │   ├── infra/scripts/        # ローカル環境用スクリプト
 │   └── tests/                # バックエンドテスト
 ├── docs/                     # 要件・設計・開発ルール
-│   ├── architecture.md
 │   ├── api.yaml
-│   ├── requirements.md
-│   ├── test-spec.md
 │   ├── external-design/       # 詳細設計
 │   ├── requirement-definition/# 要件定義/機能一覧
 │   └── rules/                # 共通・設計・開発ルール
@@ -37,10 +34,6 @@ project-root/
 │   └── tests/                # フロントエンドテスト / E2E
 ├── .github/
 │   ├── prompts/              # GitHub Copilot 向けプロンプト
-│   │   ├── develop/          # 実装用プロンプト
-│   │   ├── external-design/  # 設計用プロンプト
-│   │   ├── review/           # レビュー用プロンプト
-│   │   └── test/             # テスト用プロンプト
 │   ├── copilot-instructions.md
 │   ├── instructions/         # Copilot 向け追加指示
 │   └── workflows/            # GitHub Actions ワークフロー
@@ -51,20 +44,25 @@ project-root/
 
 ## ドキュメント
 
-- [要件定義](docs/requirements.md)
-- [アーキテクチャ設計](docs/architecture.md)
-- [API 仕様](docs/api.yaml)
-- [テスト仕様](docs/test-spec.md)
+- [要件定義](docs/requirement-definition/)
+- [設計書](docs/external-design/)
 - [開発ルール](docs/rules/)
 
 ## 生成AI活用
 
 `.github/prompts/` 配下のプロンプトテンプレートを使用して、設計・実装・テスト・レビューを効率化できます。
 
-- [実装用プロンプト](.github/prompts/develop/)
-- [設計用プロンプト](.github/prompts/external-design/)
-- [レビュー用プロンプト](.github/prompts/review/)
-- [テスト用プロンプト](.github/prompts/test/)
+- 設計用プロンプト  
+ .github/prompts/desigin-*.prompt.md
+
+- 実装用プロンプト  
+ .github/prompts/develop-*.prompt.md
+
+- レビュー用プロンプト  
+ .github/prompts/review-*.prompt.md
+
+- テスト用プロンプト  
+ .github/prompts/test-*.prompt.md
 
 ## 補足
 

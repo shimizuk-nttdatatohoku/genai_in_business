@@ -1,5 +1,5 @@
 ---
-name: "API一覧を作成する"
+name: design-30-api-catalog
 description: "機能一覧・インタフェース設計書をもとにAPI一覧（api-catalog.md）を生成する"
 ---
 
@@ -11,10 +11,10 @@ description: "機能一覧・インタフェース設計書をもとにAPI一覧
 以下のインプット資料（機能一覧・インタフェース設計書）を読み取り、「API一覧」を作成してください
 インタフェース設計書に定義されているIF-ID/API仕様を正として、機能一覧の各機能がどのAPIを利用するか対応付けた一覧にしてください
 
-## インプット（requirements フォルダ）
+## インプット
 
-- 機能一覧（.md）: #file:function-list.md
-- インタフェース設計書（.md）: #file:external-design/product/interface-design.md
+- 機能一覧（.md）: #file:docs/requirement-definition/function-list.md
+- インタフェース設計書（.md）: #file:docs/external-design/product/interface-design.md
 
 ## ルール（rules フォルダ）
 
@@ -52,6 +52,6 @@ description: "機能一覧・インタフェース設計書をもとにAPI一覧
 
 ## 出力形式（必須：Markdown）
 
-- #createFile api-catalog.md の名前でファイルを作成し、`docs\external-design\product`フォルダ内に格納する
+- #createFile api-catalog.md の名前でファイルを作成し、`docs/external-design/product`フォルダ内に格納する
 - Markdown形式(.md)で出力する
 - フォーマットは #file:fm-api-catalog.md を参照する

@@ -1,63 +1,79 @@
 # GitHub Copilot Instructions
 
-> プロジェクト詳細・規約・ビルド手順は `AGENTS.md` を正本とする。
+このファイルでは、GitHub Copilot がコード生成・設計・レビューを行う際の基本的な振る舞いを定義する
 
-## VS Code 補完向け要点
+## 参照ドキュメント
 
-- **言語**: フロントエンド TypeScript/React、バックエンド Python + FastAPI
-- **DB**: Amazon DynamoDB（テーブル: `members`, `distributions`）
-- **実行環境**: AWS Lambda（`app/handlers/` 配下にハンドラを集約）
-- **型定義共有**: `shared/types/` を再利用すること
-- コードコメント・変数名は英語、ユーザー向けメッセージは日本語
-- 詳細規約は `docs/rules/` を参照
+- プロジェクト概要・技術スタック・ディレクトリ構成・ビルド手順・テスト方針などは `AGENTS.md` を正本とする
+- 実装ルール・設計ルール・命名規則・テストルールなどは `docs/rules/` を正本とする
+- Prompt Files（`.github/prompts/`）は、実施するタスクごとの具体的な指示として扱う
 
----
+# 基本方針
 
-## 命名規則 クイックリファレンス
+- 回答・説明は日本語で行う
+- ソースコード・コメント・識別子は英語で記述する
+- ユーザーからの指示を最優先とする
+- Prompt Files が指定されている場合は、その内容に従って作業を行う
+- 実装・設計・レビューを行う際は、必要に応じて関連する `AGENTS.md` および `docs/rules/` を参照する
 
-| 対象 | 規則 | OK例 | NG例 |
-|------|------|------|------|
-| React Component / ファイル | PascalCase | `UserList.tsx` | `userList.tsx` |
-| hooks | `use` prefix + camelCase | `useAuth.ts` | `auth.ts` |
-| Props interface | `[Component名]Props` | `UserListProps` | `Props` |
-| Boolean 変数 | `is`/`has`/`can` prefix | `isLoading` | `loadingFlag` |
-| Python ファイル | snake_case | `user_service.py` | `UserService.py` |
-| Python クラス | PascalCase | `UserService` | `user_service` |
-| Python 関数 | snake_case | `get_user()` | `getUser()` |
-| DB フィールド | snake_case | `user_name` | `userName` |
-| DB 日時フィールド | `_at` suffix | `created_at` | `createdDate` |
-| DB ID フィールド | `_id` suffix | `member_id` | `memberId` |
-| テスト名 | 日本語 + 正常系/異常系明示 | `正常系_ログイン成功` | `login_success` |
+# コード生成方針
 
----
+## 既存実装を優先する
 
-## 禁止事項
+新規実装を行う前に、既存の実装を確認し、再利用可能なものを優先する
 
-### Backend（Python）
+確認対象の例
 
-- Router に業務ロジックを書く（Service に書く）
-- Repository に業務ロジックを書く
-- `print()` デバッグ（`logger` を使う）
-- グローバル状態への依存
-- Lambda 常駐前提のコード（ステートレス設計）
-- Secret / URL のハードコード（`os.getenv` を使う）
+- Component
+- Service
+- Repository
+- Utility
+- 共通関数
+- 共通型
 
-### Frontend（TypeScript/React）
+同じ責務の実装が存在する場合は、新たな実装を作成せず既存実装を利用する
 
-- Component から直接 `fetch`（`services` 層経由）
-- `any` 型の使用
-- `console.log` を実装に残す
-- `useEffect` の乱用
-- 複数の UI 責務を 1 Component に混在
+## 最小変更を心掛ける
 
----
+- 変更対象以外のコードは極力変更しない
+- 不要なリファクタリングは行わない
+- 無関係なファイルは変更しない
+- 既存の設計思想・ディレクトリ構成・レイヤ構成を尊重する
 
-## DynamoDB 共通パターン
 
-全テーブル（`members`, `distributions`）に必須の共通フィールド:
+## 推測で実装しない
 
-- `created_at` / `updated_at`（ISO 8601 形式）
-- `created_by` / `updated_by`
-- `is_deleted`（論理削除フラグ、通常検索では除外）
+仕様が不足している場合は、推測で実装しない  
+判断材料が不足している場合は、確認事項として整理し、必要に応じてユーザーへ確認する  
 
-Boolean フィールドは必ず `is_` prefix を付ける。
+## 設計変更を伴う場合
+
+アーキテクチャや共通仕様へ影響する変更を行う場合は、コード生成前に以下を説明する
+
+- 変更内容
+- 影響範囲
+- 変更理由
+- 想定されるメリット・デメリット
+
+# レビュー方針
+
+レビューを行う場合は、Prompt Files に定義されたレビュー方針・レビュー観点・出力形式・優先順位に従う
+
+レビュー対象が明確でない場合は、変更差分を優先して確認する
+
+# テスト方針
+
+テストコードの生成・レビューを行う場合は、Prompt Files および `docs/rules/development/test-rule.md` に従う
+
+# 参照優先順位
+
+GitHub Copilot は、以下の情報を組み合わせて判断する
+
+1. ユーザーからの指示
+2. AGENTS.md（プロジェクト全体の前提）
+3. 関連する docs/rules（実装・設計・試験ルール）
+4. Prompt Files（今回のタスク固有の指示）
+5. 既存ソースコード
+6. 一般的なベストプラクティス
+
+複数の指示が競合する場合は、優先順位の高いものを採用する

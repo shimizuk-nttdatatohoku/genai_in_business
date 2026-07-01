@@ -1,5 +1,5 @@
 ---
-name: "シーケンス図を作成する"
+name: design-10-sequence-diagram
 description: "要件定義書・業務フロー画像をもとにシーケンス図（Mermaid形式）を生成する"
 ---
 
@@ -16,6 +16,7 @@ description: "要件定義書・業務フロー画像をもとにシーケンス
 - 業務フロー図（画像 .png） **pngはプロンプトを実行するユーザがCopilot Chatに直接添付します。添付された画像内容（登場人物・手順・分岐・例外）を読み取って反映してください**
 - 要件定義書（.md）: #file:requirements.md
 - 機能一覧（.md）: #file:function-list.md
+
 
 ## ルール（rules フォルダ）
 
@@ -35,6 +36,6 @@ description: "要件定義書・業務フロー画像をもとにシーケンス
 
 ## 出力形式（必須）
 
-- #createFile sequence-diagram.md の名前でファイルを作成し `docs\external-design\product` フォルダ内に格納する
+- #createFile sequence-diagram.md の名前でファイルを作成し `docs/external-design/product` に格納する
 - Markdown形式(.md)で出力する
 - フォーマットは #file:fm-sequence-diagram.md を参照する

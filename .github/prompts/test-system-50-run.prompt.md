@@ -1,5 +1,5 @@
 ---
-name: "ST-05 システムテストを実施して結果を反映する"
+name: test-system-50-run
 description: "Playwrightを実行し、テスト結果をテスト項目書に反映する。ST-04の項目書作成後に実施する。"
 ---
 
@@ -16,8 +16,8 @@ Playwright を実行し、テスト結果をシステムテスト項目書へ反
 
 ## 1. 最初に読む参照ファイル
 
-- #file:frontend\playwright.config.ts
-- #file:docs\tests\system-test\items
+- #file:frontend/playwright.config.ts
+- #file:docs/tests/system-test/items
 
 ## 2. テスト実施
 

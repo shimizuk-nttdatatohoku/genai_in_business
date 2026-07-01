@@ -1,5 +1,5 @@
 ---
-name: "バックエンドコードとテストをレビューする"
+name: review-backend
 description: "FastAPI/Python バックエンドと pytest テストコードを観点ベースでレビューし、指摘事項を優先度順に整理する"
 ---
 
@@ -17,22 +17,21 @@ description: "FastAPI/Python バックエンドと pytest テストコードを�
 
 ### 1.1 実装・試験ルール
 
-- #file:docs\rules\development\backend-rule.md
-- #file:docs\rules\development\test-rule.md
-- #file:docs\rules\common\error-rule.md
-- #file:docs\rules\common\naming-rule.md
-- #file:docs\rules\common\implementation-rule.md
-- #file:docs\rules\common\glossary.md
+- #file:docs/rules/development/backend-rule.md
+- #file:docs/rules/development/test-rule.md
+- #file:docs/rules/common/error-rule.md
+- #file:docs/rules/common/naming-rule.md
+- #file:docs/rules/common/implementation-rule.md
+- #file:docs/rules/common/glossary.md
 - #file:AGENTS.md
 
-### 1.2 契約・設計
+### 1.2 要件定義・設計
 
-- #file:docs\external-design\product\api-catalog.md
-- #file:docs\external-design\product\interface-design.md
-- #file:docs\external-design\product\database-design.md
-- #file:docs\external-design\product\sequence-diagram.md
-- #file:docs\requirements.md
-- #file:docs\test-spec.md
+- #file:docs/requirement-definition/requirements.md
+- #file:docs/external-design/product/api-catalog.md
+- #file:docs/external-design/product/interface-design.md
+- #file:docs/external-design/product/database-design.md
+- #file:docs/external-design/product/sequence-diagram.md
 
 ### 1.3 レビュー対象の既存コード
 

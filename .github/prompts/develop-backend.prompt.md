@@ -1,5 +1,5 @@
 ---
-name: "バックエンドを一括実装する"
+name: develop-backend
 description: "FastAPI + Lambda + DynamoDBのバックエンドを設計書に基づいて一括実装する"
 ---
 
@@ -10,7 +10,7 @@ description: "FastAPI + Lambda + DynamoDBのバックエンドを設計書に基
 あなたはこのリポジトリのバックエンド実装担当です  
 React フロントエンドは先行実装済みであり、これから FastAPI + AWS Lambda(Mangum) + DynamoDB 前提のバックエンドを一括実装します
 
-目的は、`docs\requirement-definition` と `docs\external-design` 配下の要件書・設計書に記載された業務要件、API 契約、画面遷移、データ設計、試験観点を満たすバックエンド実装を、`backend/` 配下に一度で出力することです
+目的は、`docs/requirement-definition` と `docs/external-design` 配下の要件書・設計書に記載された業務要件、API 仕様、画面遷移、データ設計、試験観点を満たすバックエンド実装を、`backend/` 配下に一度で出力することです
 
 不足情報があっても追加質問はせず、参照ファイルの優先順位に従って合理的な前提を置き、その前提を短く明示したうえで実装を完了してください  
 説明だけで終わらず、実際のコード、テスト、ローカル実行補助まで出力してください
@@ -21,48 +21,47 @@ React フロントエンドは先行実装済みであり、これから FastAPI
 
 #### 1.1 要件・機能・画面
 
-- #file:docs\requirement-definition\function-list.md
-- #file:docs\external-design\product\screen-design.md
+- #file:docs/requirement-definition/function-list.md
+- #file:docs/external-design/product/screen-design.md
 
 #### 1.2 API 仕様定義
 
-- #file:docs\external-design\product\interface-design.md
-- #file:docs\external-design\product\api-catalog.md
+- #file:docs/external-design/product/interface-design.md
+- #file:docs/external-design/product/api-catalog.md
 
 #### 1.3 業務フロー
 
-- #file:docs\external-design\product\process-design\lgn-001-process-design.md
-- #file:docs\external-design\product\process-design\lgn_002-process-design.md
-- #file:docs\external-design\product\process-design\top-001-process-design.md
-- #file:docs\external-design\product\process-design\div-001-process-design.md
-- #file:docs\external-design\product\process-design\div-002-process-design.md
-- #file:docs\external-design\product\process-design\myp-001-process-design.md
+- #file:docs/external-design/product/process-design/lgn-001-process-design.md
+- #file:docs/external-design/product/process-design/lgn_002-process-design.md
+- #file:docs/external-design/product/process-design/top-001-process-design.md
+- #file:docs/external-design/product/process-design/div-001-process-design.md
+- #file:docs/external-design/product/process-design/div-002-process-design.md
+- #file:docs/external-design/product/process-design/myp-001-process-design.md
 
 #### 1.4 データ設計
 
-- #file:docs\external-design\product\database-design.md
-- #file:docs\external-design\product\er-diargram.md
-- #file:docs\external-design\product\sequence-diagram.md
+- #file:docs/external-design/product/database-design.md
+- #file:docs/external-design/product/er-diargram.md
+- #file:docs/external-design/product/sequence-diagram.md
 
 #### 1.5 実装・試験ルール
 
-- #file:docs\rules\development\backend-rule.md
-- #file:docs\rules\development\serverless-rule.md
-- #file:docs\rules\development\test-rule.md
-- #file:docs\rules\common\error-rule.md
-- #file:docs\rules\common\naming-rule.md
-- #file:docs\rules\common\glossary.md
-- #file:docs\rules\common\implementation-rule.md
+- #file:docs/rules/development/backend-rule.md
+- #file:docs/rules/development/serverless-rule.md
+- #file:docs/rules/development/test-rule.md
+- #file:docs/rules/common/error-rule.md
+- #file:docs/rules/common/naming-rule.md
+- #file:docs/rules/common/glossary.md
+- #file:docs/rules/common/implementation-rule.md
 - #file:AGENTS.md
 
 #### 1.6 補助参照
 
-- #file:docs\architecture.md
-- #file:docs\requirements.md
-- #file:docs\test-spec.md
-- #file:shared\types\user.ts
-- #file:backend\requirements.txt
-- #file:backend\requirements-dev.txt
+- #file:docs/requirement-definition/requirements.md
+- #file:docs/external-design/product/architecture.md
+- #file:shared/types/user.ts
+- #file:backend/requirements.txt
+- #file:backend/requirements-dev.txt
 
 ### 2. 参照ファイルの優先順位
 
@@ -74,7 +73,7 @@ React フロントエンドは先行実装済みであり、これから FastAPI
 4. `docs/external-design/product/screen-design.md` の画面イベント起点・表示要件
 5. `docs/external-design/product/database-design.md` の DynamoDB 設計
 6. `docs/rules/**` と `AGENTS.md` の実装規約
-7. `docs/architecture.md` と `docs/requirements.md` の補足要件
+7. `docs/external-design/product/architecture.md` と `docs/requirement-definition/requirements.md` の補足要件
 
 `docs/api.yaml` は補助参照に留め、正本として扱わない
 
@@ -114,7 +113,7 @@ React フロントエンドは先行実装済みであり、これから FastAPI
 
 以下の順序で実装する  
 既存コードが空に近いため、まず土台を整えてから機能実装を行う  
-`/frontend` に実装されているReactのフロンエンドコードと整合性を保ちながら実装する  
+`frontend/` に実装されているReactのフロンエンドコードと整合性を保ちながら実装する  
 
 1. `backend/app/main.py` とアプリ初期化
 2. 共通モジュール

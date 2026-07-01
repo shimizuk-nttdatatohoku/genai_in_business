@@ -35,19 +35,31 @@
 
 ## ディレクトリ構造（Directory Structure）
 
-```
+```Markdown
 project-root/
-├── docs/           # 要件・設計ドキュメント
-├── frontend/       # React (TypeScript) フロントエンド
-│   ├── src/        # ソースコード
-│   └── tests/      # フロントエンドテスト
-├── backend/        # Python バックエンド
-│   ├── app/        # アプリケーションコード
-│   └── tests/      # バックエンドテスト
-├── shared/         # 共通定義
-│   └── types/      # 共通型定義
-├── prompts/        # 生成AI用プロンプトテンプレート
-└── .github/        # GitHub Actions ワークフロー
+├── docs/                     # 要件・設計・各種ルール
+│   ├── rules/                # 設計・実装・試験ルール
+│   ├── external-design/      # 外部設計書
+│   └── requirement-definition/ # 要件定義
+│
+├── frontend/                 # React (TypeScript)
+│   ├── src/
+│   └── tests/
+│
+├── backend/                  # FastAPI (Python)
+│   ├── app/
+│   └── tests/
+│
+├── shared/                   # 共通定義
+│   └── types/
+│
+├── .github/
+│   ├── copilot-instructions.md   # Copilot共通動作
+│   ├── prompts/                  # タスク別Prompt Files
+│   ├── instructions/             # スコープ別Instructions
+│   └── workflows/                # GitHub Actions
+│
+└── AGENTS.md                 # プロジェクト共通ガイド
 ```
 
 ---
@@ -123,23 +135,23 @@ cd backend && pytest --cov=app --cov-report=term-missing
 
 - コードコメント・変数名・関数名はすべて **英語**
 - ユーザ向けのメッセージ・ラベルは **日本語**
-- 命名規則は、docs\rules\common\naming-rule.md を正本とする。
-- 環境依存値や固定URLの扱いは、docs\rules\common\implementation-rule.md を正本とする。
+- 命名規則は、docs/rules/common/naming-rule.md を正本とする。
+- 環境依存値や固定URLの扱いは、docs/rules/common/implementation-rule.md を正本とする。
 
 ### TypeScript / React
 
-- TypeScript / React の実装規約は、docs\rules\development\frontend-rule.md を正本とする。
+- TypeScript / React の実装規約は、docs/rules/development/frontend-rule.md を正本とする。
 
 ### Python
 
-- Python の実装規約は、docs\rules\development\backend-rule.md を正本とする。
+- Python の実装規約は、docs/rules/development/backend-rule.md を正本とする。
 
 ### Lambda
 
 - ハンドラ関数は `app/handlers/` に集約する
 - ハンドラ関数のシグネチャ: `async def handler(event: dict, context: LambdaContext) -> dict`
 - 関数の実行時間制限は **900 秒** を想定（タイムアウト設定に注意）
-- Lambda の実装規約は、docs\rules\development\serverless-rule.md を正本とする。
+- Lambda の実装規約は、docs/rules/development/serverless-rule.md を正本とする。
 
 ## テスト指示（Testing Instructions）
 
@@ -147,7 +159,7 @@ cd backend && pytest --cov=app --cov-report=term-missing
 
 #### React Testing Library（ユニット・コンポーネントテスト）
 
-- フロントエンドテストの実装規約は、docs\rules\development\test-rule.md を正本とする。
+- フロントエンドテストの実装規約は、docs/rules/development/test-rule.md を正本とする。
 
 ```typescript
 // tests/unit/features/member/MemberInfoCard.test.tsx
@@ -166,7 +178,7 @@ test('組合員名が表示される', () => {
 
 - カバレッジ目標: **80% 以上**
 
-- バックエンドテストの実装規約は、docs\rules\development\test-rule.md を正本とする。
+- バックエンドテストの実装規約は、docs/rules/development/test-rule.md を正本とする。
 
 ```python
 # tests/unit/services/test_member_service.py

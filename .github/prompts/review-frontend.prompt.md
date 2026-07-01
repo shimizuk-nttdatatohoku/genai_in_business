@@ -1,5 +1,5 @@
 ---
-name: "フロントエンドコードとテストをレビューする"
+name: review-frontend
 description: "React/TypeScript フロントエンドとテストコードを観点ベースでレビューし、指摘事項を優先度順に整理する"
 ---
 
@@ -17,26 +17,26 @@ description: "React/TypeScript フロントエンドとテストコードを観�
 
 ### 1.1 実装・試験ルール
 
-- #file:docs\rules\development\frontend-rule.md
-- #file:docs\rules\development\test-rule.md
-- #file:docs\rules\common\error-rule.md
-- #file:docs\rules\common\naming-rule.md
-- #file:docs\rules\common\implementation-rule.md
+- #file:docs/rules/development/frontend-rule.md
+- #file:docs/rules/development/test-rule.md
+- #file:docs/rules/common/error-rule.md
+- #file:docs/rules/common/naming-rule.md
+- #file:docs/rules/common/implementation-rule.md
 - #file:AGENTS.md
 
-### 1.2 契約・設計
+### 1.2 設計
 
-- #file:docs\external-design\product\screen-design.md
-- #file:docs\external-design\product\interface-design.md
-- #file:docs\external-design\product\api-catalog.md
-- #file:docs\external-design\product\process-design\lgn-001-process-design.md
-- #file:docs\external-design\product\process-design\lgn-002-process-design.md
-- #file:docs\external-design\product\process-design\top-001-process-design.md
-- #file:docs\external-design\product\process-design\div-001-process-design.md
-- #file:docs\external-design\product\process-design\div-002-process-design.md
-- #file:docs\external-design\product\process-design\myp-001-process-design.md
-- #file:docs\requirements.md
-- #file:docs\test-spec.md
+- #file:docs/external-design/product/screen-design.md
+- #file:docs/external-design/product/interface-design.md
+- #file:docs/external-design/product/api-catalog.md
+- #file:docs/external-design/product/process-design/lgn-001-process-design.md
+- #file:docs/external-design/product/process-design/lgn-002-process-design.md
+- #file:docs/external-design/product/process-design/top-001-process-design.md
+- #file:docs/external-design/product/process-design/div-001-process-design.md
+- #file:docs/external-design/product/process-design/div-002-process-design.md
+- #file:docs/external-design/product/process-design/myp-001-process-design.md
+- #file:docs/requirement-definition/requirements.md
+
 
 ### 1.3 レビュー対象の既存コード
 
@@ -46,7 +46,7 @@ description: "React/TypeScript フロントエンドとテストコードを観�
 
 ## 2. レビューの進め方
 
-1. 変更されたソースコードとテストコードを読み、どの仕様、画面、API 契約を満たすべきかを特定する
+1. 変更されたソースコードとテストコードを読み、どの仕様、画面、API 仕様を満たすべきかを特定する
 2. 実装とテストの両方を見て、業務観点と非業務観点の両面から確認する
 3. 可能なら画面を実際に動かし、表示、導線、Network、Console、レスポンシブ崩れを確認する
 4. 実行可能なら lint、typecheck、unit test、E2E の結果も確認し、レビュー結果に反映する
