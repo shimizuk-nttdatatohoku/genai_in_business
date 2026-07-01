@@ -12,7 +12,7 @@ description: "ER図をもとにDynamoDBの物理DB設計書を生成する"
 
 ## インプット
 
-- ER（.md）:#file:docs\external-design\product\er-diargram.md
+- ER（.md）:#file:docs/external-design/product/er-diargram.md
 
 ## ルール（rules フォルダ）
 
@@ -59,6 +59,6 @@ ER図の情報をもとに、物理DB設計として以下を具体化する：
 
 ## 出力形式（必須：Markdown）
 
-- #createFile database-design.md の名前でファイルを作成し、`docs\external-design\product` フォルダ内に格納する
+- #createFile database-design.md の名前でファイルを作成し、`docs/external-design/product` フォルダ内に格納する
 - Markdown形式(.md)で出力する
 - フォーマットは #file:fm-database-design.md を参照する

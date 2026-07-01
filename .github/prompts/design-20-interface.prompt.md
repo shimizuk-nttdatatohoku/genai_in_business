@@ -51,6 +51,6 @@ description: "要件定義書・機能一覧・デザイン画像をもとにイ
 
 ## 出力形式（必須：Markdown）
 
-- #createFile interface-design.md の名前でファイルを作成し、`docs\external-design\product` に格納する
+- #createFile interface-design.md の名前でファイルを作成し、`docs/external-design/product` に格納する
 - Markdown形式(.md)で出力する
 - フォーマットは #file:fm-interface-design.md を参照する

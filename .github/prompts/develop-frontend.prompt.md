@@ -5,7 +5,7 @@ description: "ログイン画面（LGN-001）をReact/TypeScriptで実装する"
 
 # SCR-001_ログイン画面を実装する
 
-`/docs/external-design/product`配下の設計書をもとにReact/Typescriptで実装する
+`docs/external-design/product`配下の設計書をもとにReact/Typescriptで実装する
 
 ## 1. デザイン読み込み（添付画像）
 
@@ -19,15 +19,15 @@ description: "ログイン画面（LGN-001）をReact/TypeScriptで実装する"
 
 以下の設計書に記載されている内容に必ず従う
 
-- #file:docs\requirement-definition\function-list.md
-- #file:docs\external-design\product\screen-design.md
+- #file:docs/requirement-definition/function-list.md
+- #file:docs/external-design/product/screen-design.md
 
 ## 3. 連携API（FastAPI / Lambda）
 
 以下の設計書を参考に、使用エンドポイント、リクエスト、レスポンスなどのAPI連携に必要な項目を実装する
 
-- API設計書（ #file:docs\external-design\product\api-catalog.md ）
-- インターフェース設計書（ #file:docs\external-design\product\interface-design.md ）
+- API設計書（ #file:docs/external-design/product/api-catalog.md ）
+- インターフェース設計書（ #file:docs/external-design/product/interface-design.md ）
 
 ## 4. 実装手順（この順で進める）
 

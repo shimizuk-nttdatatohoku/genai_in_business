@@ -36,6 +36,6 @@ description: "要件定義書・業務フロー画像をもとにシーケンス
 
 ## 出力形式（必須）
 
-- #createFile sequence-diagram.md の名前でファイルを作成し `docs\external-design\product` に格納する
+- #createFile sequence-diagram.md の名前でファイルを作成し `docs/external-design/product` に格納する
 - Markdown形式(.md)で出力する
 - フォーマットは #file:fm-sequence-diagram.md を参照する

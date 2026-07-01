@@ -16,8 +16,8 @@ Playwright を実行し、テスト結果をシステムテスト項目書へ反
 
 ## 1. 最初に読む参照ファイル
 
-- #file:frontend\playwright.config.ts
-- #file:docs\tests\system-test\items
+- #file:frontend/playwright.config.ts
+- #file:docs/tests/system-test/items
 
 ## 2. テスト実施
 

@@ -17,25 +17,25 @@ description: "React/TypeScript フロントエンドとテストコードを観�
 
 ### 1.1 実装・試験ルール
 
-- #file:docs\rules\development\frontend-rule.md
-- #file:docs\rules\development\test-rule.md
-- #file:docs\rules\common\error-rule.md
-- #file:docs\rules\common\naming-rule.md
-- #file:docs\rules\common\implementation-rule.md
+- #file:docs/rules/development/frontend-rule.md
+- #file:docs/rules/development/test-rule.md
+- #file:docs/rules/common/error-rule.md
+- #file:docs/rules/common/naming-rule.md
+- #file:docs/rules/common/implementation-rule.md
 - #file:AGENTS.md
 
 ### 1.2 設計
 
-- #file:docs\external-design\product\screen-design.md
-- #file:docs\external-design\product\interface-design.md
-- #file:docs\external-design\product\api-catalog.md
-- #file:docs\external-design\product\process-design\lgn-001-process-design.md
-- #file:docs\external-design\product\process-design\lgn-002-process-design.md
-- #file:docs\external-design\product\process-design\top-001-process-design.md
-- #file:docs\external-design\product\process-design\div-001-process-design.md
-- #file:docs\external-design\product\process-design\div-002-process-design.md
-- #file:docs\external-design\product\process-design\myp-001-process-design.md
-- #file:docs\requirement-definition\requirements.md
+- #file:docs/external-design/product/screen-design.md
+- #file:docs/external-design/product/interface-design.md
+- #file:docs/external-design/product/api-catalog.md
+- #file:docs/external-design/product/process-design/lgn-001-process-design.md
+- #file:docs/external-design/product/process-design/lgn-002-process-design.md
+- #file:docs/external-design/product/process-design/top-001-process-design.md
+- #file:docs/external-design/product/process-design/div-001-process-design.md
+- #file:docs/external-design/product/process-design/div-002-process-design.md
+- #file:docs/external-design/product/process-design/myp-001-process-design.md
+- #file:docs/requirement-definition/requirements.md
 
 
 ### 1.3 レビュー対象の既存コード

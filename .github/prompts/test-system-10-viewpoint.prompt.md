@@ -25,23 +25,23 @@ description: "設計書をもとにSTテスト観点を洗い出し、観点表�
 
 ### 1.1 要件定義書
 
-- #file:docs\requirement-definition\requirements.md
-- #file:docs\requirement-definition\function-list.md
+- #file:docs/requirement-definition/requirements.md
+- #file:docs/requirement-definition/function-list.md
 
 ### 1.2 設計書
 
-- #file:docs\external-design\product\screen-design.md
-- #file:docs\external-design\product\sequence-diagram.md
-- #file:docs\external-design\product\process-design\div-001-process-design.md
-- #file:docs\external-design\product\process-design\div-002-process-design.md
-- #file:docs\external-design\product\process-design\lgn-001-process-design.md
-- #file:docs\external-design\product\process-design\lgn-002-process-design.md
-- #file:docs\external-design\product\process-design\myp-001-process-design.md
-- #file:docs\external-design\product\process-design\top-001-process-design.md
-- #file:docs\external-design\product\api-catalog.md
-- #file:docs\external-design\product\interface-design.md
-- #file:docs\external-design\product\database-design.md
-- #file:docs\external-design\product\er-diargram.md
+- #file:docs/external-design/product/screen-design.md
+- #file:docs/external-design/product/sequence-diagram.md
+- #file:docs/external-design/product/process-design/div-001-process-design.md
+- #file:docs/external-design/product/process-design/div-002-process-design.md
+- #file:docs/external-design/product/process-design/lgn-001-process-design.md
+- #file:docs/external-design/product/process-design/lgn-002-process-design.md
+- #file:docs/external-design/product/process-design/myp-001-process-design.md
+- #file:docs/external-design/product/process-design/top-001-process-design.md
+- #file:docs/external-design/product/api-catalog.md
+- #file:docs/external-design/product/interface-design.md
+- #file:docs/external-design/product/database-design.md
+- #file:docs/external-design/product/er-diargram.md
 
 ## 2. テスト観点の抽出
 
@@ -84,7 +84,7 @@ description: "設計書をもとにSTテスト観点を洗い出し、観点表�
 - 観点は曖昧表現（「正しく動くこと」のみ等）を避け、**どのような観点でテスト項目を作成すればよいか**が分かるよう具体化する
 - **入力材料に記載のない仕様を推測で補完しない**
 - Markdown形式(.md)で出力する
-- 出力先は `docs\tests\system-test\items\` 配下とし、ファイル名は `systemtest-testview.md` とする
+- 出力先は `docs/tests/system-test/items/` 配下とし、ファイル名は `systemtest-testview.md` とする
 
 ## 重要：不明点の確認
 

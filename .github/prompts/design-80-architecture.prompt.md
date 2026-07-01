@@ -23,7 +23,7 @@ description: "要件定義書をもとにAWSサーバレス構成のアーキテ
 - #file:glossary.md
 
 ## 作成対象（必須）
-要件定義書と機能一覧と、`docs\external-design\product` に格納されている設計書が実現できる環境構成とする
+要件定義書と機能一覧と、`docs/external-design/product` に格納されている設計書が実現できる環境構成とする
 
 - AWSを用いた最小限のサーバレス構成
 - システム構成図（テキスト形式）
@@ -34,7 +34,7 @@ description: "要件定義書をもとにAWSサーバレス構成のアーキテ
 
 ## 出力形式
 
-- #createFile architecture.md の名前でファイルを作成し、`docs\external-design\product` に格納する
+- #createFile architecture.md の名前でファイルを作成し、`docs/external-design/product` に格納する
 - Markdown形式(.md)で出力する
 - フォーマットは #file:fm-architecture.md を参照する
 

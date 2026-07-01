@@ -20,34 +20,34 @@ description: "Vitest/RTLのテストコードを修正・補完し、テスト�
 
 ### 1.1 実装・試験ルール
 
-- #file:docs\rules\development\test-rule.md
-- #file:docs\rules\development\frontend-rule.md
-- #file:docs\rules\common\naming-rule.md
+- #file:docs/rules/development/test-rule.md
+- #file:docs/rules/development/frontend-rule.md
+- #file:docs/rules/common/naming-rule.md
 - #file:AGENTS.md
 
 ### 1.2 画面・API 設計
 
-- #file:docs\external-design\product\screen-design.md
-- #file:docs\external-design\product\api-catalog.md
-- #file:docs\external-design\product\interface-design.md
-- #file:docs\external-design\product\process-design\lgn-001-process-design.md
-- #file:docs\external-design\product\process-design\lgn-002-process-design.md
-- #file:docs\external-design\product\process-design\top-001-process-design.md
-- #file:docs\external-design\product\process-design\div-001-process-design.md
-- #file:docs\external-design\product\process-design\div-002-process-design.md
-- #file:docs\external-design\product\process-design\myp-001-process-design.md
+- #file:docs/external-design/product/screen-design.md
+- #file:docs/external-design/product/api-catalog.md
+- #file:docs/external-design/product/interface-design.md
+- #file:docs/external-design/product/process-design/lgn-001-process-design.md
+- #file:docs/external-design/product/process-design/lgn-002-process-design.md
+- #file:docs/external-design/product/process-design/top-001-process-design.md
+- #file:docs/external-design/product/process-design/div-001-process-design.md
+- #file:docs/external-design/product/process-design/div-002-process-design.md
+- #file:docs/external-design/product/process-design/myp-001-process-design.md
 
 ### 1.3 既存テストコード・セットアップ
 
-- #file:frontend\tests\setup.ts
-- #file:frontend\tests\App.test.tsx
-- #file:frontend\tests\DividendNoticePage.test.tsx
-- #file:frontend\tests\MyPage.test.tsx
+- #file:frontend/tests/setup.ts
+- #file:frontend/tests/App.test.tsx
+- #file:frontend/tests/DividendNoticePage.test.tsx
+- #file:frontend/tests/MyPage.test.tsx
 
 ### 1.4 MSW モック
 
-- #file:frontend\src\mocks\server.ts
-- #file:frontend\src\mocks\handlers.ts
+- #file:frontend/src/mocks/server.ts
+- #file:frontend/src/mocks/handlers.ts
 
 ## 2. ステップ 1 — テストコード生成・修正
 

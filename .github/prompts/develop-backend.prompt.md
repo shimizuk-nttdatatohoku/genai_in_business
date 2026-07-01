@@ -10,7 +10,7 @@ description: "FastAPI + Lambda + DynamoDBのバックエンドを設計書に基
 あなたはこのリポジトリのバックエンド実装担当です  
 React フロントエンドは先行実装済みであり、これから FastAPI + AWS Lambda(Mangum) + DynamoDB 前提のバックエンドを一括実装します
 
-目的は、`docs\requirement-definition` と `docs\external-design` 配下の要件書・設計書に記載された業務要件、API 契約、画面遷移、データ設計、試験観点を満たすバックエンド実装を、`backend\` 配下に一度で出力することです
+目的は、`docs/requirement-definition` と `docs/external-design` 配下の要件書・設計書に記載された業務要件、API 契約、画面遷移、データ設計、試験観点を満たすバックエンド実装を、`backend/` 配下に一度で出力することです
 
 不足情報があっても追加質問はせず、参照ファイルの優先順位に従って合理的な前提を置き、その前提を短く明示したうえで実装を完了してください  
 説明だけで終わらず、実際のコード、テスト、ローカル実行補助まで出力してください
@@ -21,75 +21,75 @@ React フロントエンドは先行実装済みであり、これから FastAPI
 
 #### 1.1 要件・機能・画面
 
-- #file:docs\requirement-definition\function-list.md
-- #file:docs\external-design\product\screen-design.md
+- #file:docs/requirement-definition/function-list.md
+- #file:docs/external-design/product/screen-design.md
 
 #### 1.2 API 仕様定義
 
-- #file:docs\external-design\product\interface-design.md
-- #file:docs\external-design\product\api-catalog.md
+- #file:docs/external-design/product/interface-design.md
+- #file:docs/external-design/product/api-catalog.md
 
 #### 1.3 業務フロー
 
-- #file:docs\external-design\product\process-design\lgn-001-process-design.md
-- #file:docs\external-design\product\process-design\lgn_002-process-design.md
-- #file:docs\external-design\product\process-design\top-001-process-design.md
-- #file:docs\external-design\product\process-design\div-001-process-design.md
-- #file:docs\external-design\product\process-design\div-002-process-design.md
-- #file:docs\external-design\product\process-design\myp-001-process-design.md
+- #file:docs/external-design/product/process-design/lgn-001-process-design.md
+- #file:docs/external-design/product/process-design/lgn_002-process-design.md
+- #file:docs/external-design/product/process-design/top-001-process-design.md
+- #file:docs/external-design/product/process-design/div-001-process-design.md
+- #file:docs/external-design/product/process-design/div-002-process-design.md
+- #file:docs/external-design/product/process-design/myp-001-process-design.md
 
 #### 1.4 データ設計
 
-- #file:docs\external-design\product\database-design.md
-- #file:docs\external-design\product\er-diargram.md
-- #file:docs\external-design\product\sequence-diagram.md
+- #file:docs/external-design/product/database-design.md
+- #file:docs/external-design/product/er-diargram.md
+- #file:docs/external-design/product/sequence-diagram.md
 
 #### 1.5 実装・試験ルール
 
-- #file:docs\rules\development\backend-rule.md
-- #file:docs\rules\development\serverless-rule.md
-- #file:docs\rules\development\test-rule.md
-- #file:docs\rules\common\error-rule.md
-- #file:docs\rules\common\naming-rule.md
-- #file:docs\rules\common\glossary.md
-- #file:docs\rules\common\implementation-rule.md
+- #file:docs/rules/development/backend-rule.md
+- #file:docs/rules/development/serverless-rule.md
+- #file:docs/rules/development/test-rule.md
+- #file:docs/rules/common/error-rule.md
+- #file:docs/rules/common/naming-rule.md
+- #file:docs/rules/common/glossary.md
+- #file:docs/rules/common/implementation-rule.md
 - #file:AGENTS.md
 
 #### 1.6 補助参照
 
-- #file:docs\requirement-definition\requirements.md
-- #file:docs\external-design\product\architecture.md
-- #file:shared\types\user.ts
-- #file:backend\requirements.txt
-- #file:backend\requirements-dev.txt
+- #file:docs/requirement-definition/requirements.md
+- #file:docs/external-design/product/architecture.md
+- #file:shared/types/user.ts
+- #file:backend/requirements.txt
+- #file:backend/requirements-dev.txt
 
 ### 2. 参照ファイルの優先順位
 
 仕様が競合した場合は次の優先順位で採用する
 
-1. `docs\requirement-definition\function-list.md` の機能定義
-2. `docs\external-design\product\interface-design.md` と `docs\external-design\product\api-catalog.md` の API 仕様定義
-3. `docs\external-design\product\process-design\*.md` の業務フローとエラー条件
-4. `docs\external-design\product\screen-design.md` の画面イベント起点・表示要件
-5. `docs\external-design\product\database-design.md` の DynamoDB 設計
-6. `docs\rules\**` と `AGENTS.md` の実装規約
-7. `docs\external-design\product\architecture.md` と `docs\requirement-definition\requirements.md` の補足要件
+1. `docs/requirement-definition/function-list.md` の機能定義
+2. `docs/external-design/product/interface-design.md` と `docs/external-design/product/api-catalog.md` の API 仕様定義
+3. `docs/external-design/product/process-design/*.md` の業務フローとエラー条件
+4. `docs/external-design/product/screen-design.md` の画面イベント起点・表示要件
+5. `docs/external-design/product/database-design.md` の DynamoDB 設計
+6. `docs/rules/**` と `AGENTS.md` の実装規約
+7. `docs/external-design/product/architecture.md` と `docs/requirement-definition/requirements.md` の補足要件
 
-`docs\api.yaml` は補助参照に留め、正本として扱わない
+`docs/api.yaml` は補助参照に留め、正本として扱わない
 
 ### 3. 出力対象
 
 以下を一度で出力する
 
-- `backend\app\` 配下の FastAPI アプリ本体
-- `backend\tests\` 配下の pytest 一式
-- `frontend\`の修正は最低にし、バックエンドとの整合性を保つための最低限の実装
+- `backend/app/` 配下の FastAPI アプリ本体
+- `backend/tests/` 配下の pytest 一式
+- `frontend/`の修正は最低にし、バックエンドとの整合性を保つための最低限の実装
 - ローカル開発用の DynamoDB 初期化補助
 - 必要最小限の設定補助やサンプルデータ
 
 以下は出力しない
 
-- `frontend\` 配下のフロンエンドのデザイン
+- `frontend/` 配下のフロンエンドのデザイン
 - AWS デプロイ用インフラ定義の全面変更
 - 要件書にない新規機能の追加
 - 不要なライブラリの追加
@@ -107,15 +107,15 @@ React フロントエンドは先行実装済みであり、これから FastAPI
 - IF-007 組合員情報更新 `PUT /api/v1/users/me`
 
 下記の一覧に記載された機能をすべて実現する
- `docs\requirement-definition\function-list.md`
+ `docs/requirement-definition/function-list.md`
 
 ### 5. 実装順序
 
 以下の順序で実装する  
 既存コードが空に近いため、まず土台を整えてから機能実装を行う  
-`frontend\` に実装されているReactのフロンエンドコードと整合性を保ちながら実装する  
+`frontend/` に実装されているReactのフロンエンドコードと整合性を保ちながら実装する  
 
-1. `backend\app\main.py` とアプリ初期化
+1. `backend/app/main.py` とアプリ初期化
 2. 共通モジュール
 3. 認証・セッション・CSRF 基盤
 4. schema 定義
@@ -130,21 +130,21 @@ React フロントエンドは先行実装済みであり、これから FastAPI
 既存ルールを尊重し、以下のような構成にする  
 必要に応じて細分化してもよいが、責務が曖昧にならないようにする  
 
-- `backend\app\main.py`
-- `backend\app\routers\`
-- `backend\app\services\`
-- `backend\app\repositories\`
-- `backend\app\schemas\`
-- `backend\app\models\`
-- `backend\app\common\`
-- `backend\tests\unit\`
-- `backend\tests\integration\`
-- `backend\tests\conftest.py`
-- `backend\scripts\` または `backend\infra\` 配下のローカル DynamoDB 初期化補助
+- `backend/app/main.py`
+- `backend/app/routers/`
+- `backend/app/services/`
+- `backend/app/repositories/`
+- `backend/app/schemas/`
+- `backend/app/models/`
+- `backend/app/common/`
+- `backend/tests/unit/`
+- `backend/tests/integration/`
+- `backend/tests/conftest.py`
+- `backend/scripts/` または `backend/infra/` 配下のローカル DynamoDB 初期化補助
 
 ### 7. テスト要件
 
-`docs\rules\development\test-rule.md` と `AGENTS.md` を満たすよう、pytest を実装する
+`docs/rules/development/test-rule.md` と `AGENTS.md` を満たすよう、pytest を実装する
 
 ### 8. DynamoDB 初期化補助
 
@@ -176,8 +176,8 @@ React フロントエンドは先行実装済みであり、これから FastAPI
 以下をすべて満たしたら完了とみなす
 
 - IF-001 から IF-007 まで 7 本すべてが実装されている
-- `backend\app\` 配下に FastAPI + Mangum の実装が揃っている
-- `backend\tests\` 配下に pytest が揃っている
+- `backend/app/` 配下に FastAPI + Mangum の実装が揃っている
+- `backend/tests/` 配下に pytest が揃っている
 - ローカル DynamoDB 初期化補助がある
 - セッション、CSRF、認証、認可、共通エラー、ログ、PII マスキングが反映されている
 - 設計書差分に対する採用前提が明示されている
