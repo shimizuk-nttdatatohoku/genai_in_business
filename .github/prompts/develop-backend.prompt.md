@@ -1,5 +1,5 @@
 ---
-name: "バックエンドを一括実装する"
+name: develop-backend
 description: "FastAPI + Lambda + DynamoDBのバックエンドを設計書に基づいて一括実装する"
 ---
 

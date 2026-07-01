@@ -1,11 +1,11 @@
 ---
-name: "SCR-001 ログイン画面を実装する"
+name: develop-frontend
 description: "ログイン画面（LGN-001）をReact/TypeScriptで実装する"
 ---
 
 # SCR-001_ログイン画面を実装する
 
-/docs/external-design/product配下の設計書をもとにReact/Typescriptで実装する
+`/docs/external-design/product`配下の設計書をもとにReact/Typescriptで実装する
 
 ## 1. デザイン読み込み（添付画像）
 

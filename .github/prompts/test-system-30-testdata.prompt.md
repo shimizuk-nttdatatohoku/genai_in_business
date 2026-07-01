@@ -1,5 +1,5 @@
 ---
-name: "ST-03 E2Eテスト用試験データを作成する"
+name: test-system-30-testdata
 description: "テストコードをもとにDynamoDB初期投入データ（JSON/CSV形式）を生成する。ST-02のテストコード生成後に実施する。"
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: "バックエンド単体テストを生成・実施する"
+name: test-unit-backend
 description: "pytestのテストコードを修正・補完し、試験項目書を生成してテストを実施する"
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: "ST-05 システムテストを実施して結果を反映する"
+name: test-system-50-run
 description: "Playwrightを実行し、テスト結果をテスト項目書に反映する。ST-04の項目書作成後に実施する。"
 ---
 

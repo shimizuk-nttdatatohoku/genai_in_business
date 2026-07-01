@@ -1,5 +1,5 @@
 ---
-name: "ST-04 システムテスト項目書を作成する"
+name: test-system-40-items
 description: "Playwrightテストコードを分析してシステムテスト項目書（Markdown）を生成する。ST-02のテストコード生成後に実施する。"
 ---
 

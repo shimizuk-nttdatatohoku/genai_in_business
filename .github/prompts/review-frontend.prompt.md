@@ -1,5 +1,5 @@
 ---
-name: "フロントエンドコードとテストをレビューする"
+name: review-frontend
 description: "React/TypeScript フロントエンドとテストコードを観点ベースでレビューし、指摘事項を優先度順に整理する"
 ---
 
@@ -24,7 +24,7 @@ description: "React/TypeScript フロントエンドとテストコードを観�
 - #file:docs\rules\common\implementation-rule.md
 - #file:AGENTS.md
 
-### 1.2 契約・設計
+### 1.2 設計
 
 - #file:docs\external-design\product\screen-design.md
 - #file:docs\external-design\product\interface-design.md

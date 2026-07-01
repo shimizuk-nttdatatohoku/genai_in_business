@@ -1,5 +1,5 @@
 ---
-name: "DB設計書（物理設計）を作成する"
+name: design-50-database
 description: "ER図をもとにDynamoDBの物理DB設計書を生成する"
 ---
 

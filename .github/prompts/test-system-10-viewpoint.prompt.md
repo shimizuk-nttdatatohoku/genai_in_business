@@ -1,6 +1,6 @@
 ---
-name: "ST-01 システムテスト観点表を作成する"
-description: "設計書をもとにSTテスト観点を洗い出し、観点表（Markdown）を生成する。"
+name: test-system-10-viewpoint
+description: "設計書をもとにSTテスト観点を洗い出し、観点表（Markdown）を生成する"
 ---
 
 # システムテスト観点表 作成プロンプト

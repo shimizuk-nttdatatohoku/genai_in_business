@@ -1,5 +1,5 @@
 ---
-name: "バックエンド単体テストを生成・実施してカバレッジを確認する"
+name: test-unit-backend-run
 description: "pytestのテストコードを修正・補完し、テストを実施してカバレッジを出力する"
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: "API一覧を作成する"
+name: design-30-api-catalog
 description: "機能一覧・インタフェース設計書をもとにAPI一覧（api-catalog.md）を生成する"
 ---
 

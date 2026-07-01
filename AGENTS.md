@@ -35,19 +35,31 @@
 
 ## ディレクトリ構造（Directory Structure）
 
-```
+```Markdown
 project-root/
-├── docs/           # 要件・設計ドキュメント
-├── frontend/       # React (TypeScript) フロントエンド
-│   ├── src/        # ソースコード
-│   └── tests/      # フロントエンドテスト
-├── backend/        # Python バックエンド
-│   ├── app/        # アプリケーションコード
-│   └── tests/      # バックエンドテスト
-├── shared/         # 共通定義
-│   └── types/      # 共通型定義
-├── prompts/        # 生成AI用プロンプトテンプレート
-└── .github/        # GitHub Actions ワークフロー
+├── docs/                     # 要件・設計・各種ルール
+│   ├── rules/                # 設計・実装・試験ルール
+│   ├── external-design/      # 外部設計書
+│   └── requirements.md       # 要件定義
+│
+├── frontend/                 # React (TypeScript)
+│   ├── src/
+│   └── tests/
+│
+├── backend/                  # FastAPI (Python)
+│   ├── app/
+│   └── tests/
+│
+├── shared/                   # 共通定義
+│   └── types/
+│
+├── .github/
+│   ├── copilot-instructions.md   # Copilot共通動作
+│   ├── prompts/                  # タスク別Prompt Files
+│   ├── instructions/             # スコープ別Instructions
+│   └── workflows/                # GitHub Actions
+│
+└── AGENTS.md                 # プロジェクト共通ガイド
 ```
 
 ---

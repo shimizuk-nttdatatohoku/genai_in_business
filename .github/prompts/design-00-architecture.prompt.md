@@ -1,5 +1,5 @@
 ---
-name: "システムアーキテクチャ設計書を作成する"
+name: design-00-architecture
 description: "要件定義書をもとにAWSサーバレス構成のアーキテクチャ設計書を生成する"
 ---
 

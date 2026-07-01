@@ -1,5 +1,5 @@
 ---
-name: "ST-02 システムテストコードを生成する"
+name: test-system-20-testcode
 description: "観点表・設計書をもとにPlaywrightのE2Eテストコードを生成する。ST-01の観点表作成後に実施する。"
 ---
 

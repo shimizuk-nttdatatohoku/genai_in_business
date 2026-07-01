@@ -1,5 +1,5 @@
 ---
-name: "バックエンドコードとテストをレビューする"
+name: review-backend
 description: "FastAPI/Python バックエンドと pytest テストコードを観点ベースでレビューし、指摘事項を優先度順に整理する"
 ---
 
@@ -25,7 +25,7 @@ description: "FastAPI/Python バックエンドと pytest テストコードを�
 - #file:docs\rules\common\glossary.md
 - #file:AGENTS.md
 
-### 1.2 契約・設計
+### 1.2 要件定義・設計
 
 - #file:docs\external-design\product\api-catalog.md
 - #file:docs\external-design\product\interface-design.md
