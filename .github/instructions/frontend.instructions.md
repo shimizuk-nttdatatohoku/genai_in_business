@@ -8,11 +8,11 @@ applyTo: "frontend/**/*.{ts,tsx}"
 規約本文の正本は docs/rules 配下に集約し、このファイルには重複記載しません。
 
 ## 参照先
-- `docs/rules/development/frontend-rule.md`
-- `docs/rules/common/naming-rule.md`
-- `docs/rules/common/error-rule.md`
-- `docs/rules/common/implementation-rule.md`
-- `docs/rules/development/test-rule.md`
+- `docs\rules\development\frontend-rule.md`
+- `docs\rules\common\naming-rule.md`
+- `docs\rules\common\error-rule.md`
+- `docs\rules\common\implementation-rule.md`
+- `docs\rules\development\test-rule.md`
 
 ## 運用ルール
 - フロントエンド実装の判断は参照先ルールを正本とする

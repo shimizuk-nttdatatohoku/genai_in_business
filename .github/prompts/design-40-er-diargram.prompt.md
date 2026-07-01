@@ -13,11 +13,11 @@ description: "要件定義書・機能一覧・処理設計書をもとにER図�
 
 ## インプット
 
-- 要件定義書（.md）: #file:requirements.md
-- 機能一覧（.md）: #file:function-list.md
-- 処理設計（.md）: #file:process-design のフォルダ内の全ファイル
+- 要件定義書（.md）: #file:docs\requirement-definition\requirements.md
+- 機能一覧（.md）: #file:docs\requirement-definition\function-list.md
+- 処理設計（.md）: #file:docs\process-design のフォルダ内の全ファイル
 
-## ルール
+## ルール（rules フォルダ）
 
 以下のルールを必ず遵守する（命名、用語、エラー表現、DB設計方針）:
 

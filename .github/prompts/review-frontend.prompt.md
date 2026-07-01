@@ -35,8 +35,8 @@ description: "React/TypeScript フロントエンドとテストコードを観�
 - #file:docs\external-design\product\process-design\div-001-process-design.md
 - #file:docs\external-design\product\process-design\div-002-process-design.md
 - #file:docs\external-design\product\process-design\myp-001-process-design.md
-- #file:docs\requirements.md
-- #file:docs\test-spec.md
+- #file:docs\requirement-definition\requirements.md
+
 
 ### 1.3 レビュー対象の既存コード
 

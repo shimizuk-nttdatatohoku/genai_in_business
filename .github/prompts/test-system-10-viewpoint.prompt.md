@@ -25,7 +25,7 @@ description: "設計書をもとにSTテスト観点を洗い出し、観点表�
 
 ### 1.1 要件定義書
 
-- #file:docs\requirements.md
+- #file:docs\requirement-definition\requirements.md
 - #file:docs\requirement-definition\function-list.md
 
 ### 1.2 設計書

@@ -11,10 +11,10 @@ description: "機能一覧・インタフェース設計書をもとにAPI一覧
 以下のインプット資料（機能一覧・インタフェース設計書）を読み取り、「API一覧」を作成してください
 インタフェース設計書に定義されているIF-ID/API仕様を正として、機能一覧の各機能がどのAPIを利用するか対応付けた一覧にしてください
 
-## インプット（requirements フォルダ）
+## インプット
 
-- 機能一覧（.md）: #file:function-list.md
-- インタフェース設計書（.md）: #file:external-design/product/interface-design.md
+- 機能一覧（.md）: #file:docs\requirement-definition\function-list.md
+- インタフェース設計書（.md）: #file:docs\external-design\product\interface-design.md
 
 ## ルール（rules フォルダ）
 

@@ -12,9 +12,9 @@ description: "ER図をもとにDynamoDBの物理DB設計書を生成する"
 
 ## インプット
 
-- ER（.md）:#file:external-design/product/er-diargram.md
+- ER（.md）:#file:docs\external-design\product\er-diargram.md
 
-## ルール
+## ルール（rules フォルダ）
 
 以下のルールを必ず遵守する（命名、用語、エラー表現、例外時の流れ）:
 

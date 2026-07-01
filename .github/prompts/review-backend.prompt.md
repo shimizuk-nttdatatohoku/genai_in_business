@@ -27,12 +27,11 @@ description: "FastAPI/Python バックエンドと pytest テストコードを�
 
 ### 1.2 要件定義・設計
 
+- #file:docs\requirement-definition\requirements.md
 - #file:docs\external-design\product\api-catalog.md
 - #file:docs\external-design\product\interface-design.md
 - #file:docs\external-design\product\database-design.md
 - #file:docs\external-design\product\sequence-diagram.md
-- #file:docs\requirements.md
-- #file:docs\test-spec.md
 
 ### 1.3 レビュー対象の既存コード
 

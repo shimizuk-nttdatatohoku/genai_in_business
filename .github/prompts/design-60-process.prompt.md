@@ -14,11 +14,11 @@ description: "機能一覧・デザイン画像をもとに機能ごとの処理
 ## インプット
 
 - 画面イメージ（画像 .png）**pngはプロンプトを実行するユーザがCopilot Chatに直接添付します。添付された画像内容（登場人物・手順・分岐・例外）を読み取って反映してください**
-- 要件定義書（.md）: #file:requirements.md
-- 機能一覧（.md）: #file:function-list.md
-- シーケンス図（.md）: #file:sequence-diagram.md
+- 要件定義書（.md）: #file:docs\requirement-definition\requirements.md
+- 機能一覧（.md）: #file:docs\requirement-definition\function-list.md
+- シーケンス図（.md）: #file:docs\external-design\product\sequence-diagram.md
 
-## ルール
+## ルール（rules フォルダ）
 
 以下のルールを必ず遵守する（命名、用語、エラー表現、例外時の流れ）:
 

@@ -11,12 +11,12 @@ description: "要件定義書・機能一覧・デザイン画像をもとに画
 以下のインプット資料を読み取り、要件に基づいた「画面設計書（画面項目・項目起点アクション含む）」を作成してください
 業務フロー図・要件定義書・機能一覧の内容を矛盾なく統合し、命名規則・エラー設計・用語統一を必ず遵守してください
 
-## インプット（requirements フォルダ）
+## インプット
 
 - 画面イメージ（画像 .png）**pngはプロンプトを実行するユーザがCopilot Chatに直接添付します。添付された画像内容（登場人物・手順・分岐・例外）を読み取って反映してください**
-- 要件定義書（.md）: #file:requirements.md
-- 機能一覧（.md）: #file:function-list.md
-- シーケンス図（.md）: #file:sequence-diagram.md
+- 要件定義書（.md）: #file:docs\requirement-definition\requirements.md
+- 機能一覧（.md）: #file:docs\requirement-definition\function-list.md
+- シーケンス図（.md）: #file:docs\external-design\product\sequence-diagram.md
 
 ## ルール（rules フォルダ）
 
