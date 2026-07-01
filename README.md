@@ -52,10 +52,17 @@ project-root/
 
 `.github/prompts/` 配下のプロンプトテンプレートを使用して、設計・実装・テスト・レビューを効率化できます。
 
-- [設計用プロンプト](.github/prompts/desigin-*.prompt.md)
-- [実装用プロンプト](.github/prompts/develop-*.prompt.md)
-- [レビュー用プロンプト](.github/prompts/review-*.prompt.md)
-- [テスト用プロンプト](.github/prompts/test-*.prompt.md)
+- 設計用プロンプト  
+ .github/prompts/desigin-*.prompt.md
+
+- 実装用プロンプト  
+ .github/prompts/develop-*.prompt.md
+
+- レビュー用プロンプト  
+ .github/prompts/review-*.prompt.md
+
+- テスト用プロンプト  
+ .github/prompts/test-*.prompt.md
 
 ## 補足
 
