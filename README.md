@@ -37,6 +37,8 @@ project-root/
 │   ├── copilot-instructions.md
 │   ├── instructions/         # Copilot 向け追加指示
 │   └── workflows/            # GitHub Actions ワークフロー
+├── .vscode/
+│   └── mcp.json              # MCPサーバ設定
 ├── shared/
 │   └── types/                # 共通型定義
 ├── tests/                    # テスト観点・成果物
