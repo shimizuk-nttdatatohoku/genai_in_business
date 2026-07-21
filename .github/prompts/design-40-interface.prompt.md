@@ -1,5 +1,5 @@
 ---
-name: design-20-interface
+name: design-40-interface
 description: "要件定義書・機能一覧・デザイン画像をもとにインタフェース設計書を生成する"
 ---
 

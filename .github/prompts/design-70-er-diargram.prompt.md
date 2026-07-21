@@ -1,5 +1,5 @@
 ---
-name: design-40-er-diargram
+name: design-70-er-diargram
 description: "要件定義書・機能一覧・処理設計書をもとにER図（Mermaid形式）を生成する"
 ---
 
