@@ -1,5 +1,5 @@
 ---
-name: design-70-screen
+name: design-30-screen
 description: "要件定義書・機能一覧・デザイン画像をもとに画面設計書を生成する"
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: design-10-sequence-diagram
+name: design-20-sequence-diagram
 description: "要件定義書・業務フロー画像をもとにシーケンス図（Mermaid形式）を生成する"
 ---
 

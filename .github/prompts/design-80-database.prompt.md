@@ -1,5 +1,5 @@
 ---
-name: design-50-database
+name: design-80-database
 description: "ER図をもとにDynamoDBの物理DB設計書を生成する"
 ---
 
