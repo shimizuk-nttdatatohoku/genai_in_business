@@ -29,5 +29,5 @@ Figmaに作成されたデザインをもとにReact/Typescriptで実装する
 
 ## 3. ルール
 
-frontend 実装時の共通ルールは #file:frontend.instructions.md を参照する  
-用語の定義は #file:glossary.md を参照する
+frontend 実装時の共通ルールは #file:../../.github/instructions/frontend.instructions.md を参照する
+用語の定義は #file:../../docs/rules/common/glossary.md を参照する

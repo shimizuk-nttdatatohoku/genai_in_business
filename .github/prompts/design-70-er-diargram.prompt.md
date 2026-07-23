@@ -13,18 +13,18 @@ description: "要件定義書・機能一覧・処理設計書をもとにER図�
 
 ## インプット
 
-- 要件定義書（.md）: #file:docs/requirement-definition/requirements.md
-- 機能一覧（.md）: #file:docs/requirement-definition/function-list.md
-- 処理設計（.md）: #file:docs/process-design のフォルダ内の全ファイル
+- 要件定義書（.md）: #file:../../docs/requirement-definition/requirements.md
+- 機能一覧（.md）: #file:../../docs/requirement-definition/function-list.md
+- 処理設計（.md）: #file:../../docs/external-design/product/process-design のフォルダ内の全ファイル
 
 ## ルール（rules フォルダ）
 
 以下のルールを必ず遵守する（命名、用語、エラー表現、DB設計方針）:
 
-- #file:naming-rule.md
-- #file:error-rule.md
-- #file:glossary.md
-- #file:db-design-rule.md
+- #file:../../docs/rules/common/naming-rule.md
+- #file:../../docs/rules/common/error-rule.md
+- #file:../../docs/rules/common/glossary.md
+- #file:../../docs/rules/design/db-design-rule.md
 
 ## 作成対象（必須）
 
@@ -49,4 +49,4 @@ description: "要件定義書・機能一覧・処理設計書をもとにER図�
 
 - #createFile er-diargram.md の名前でファイルを作成し `docs/external-design/product` に格納する
 - Markdown形式(.md)で出力する
-- フォーマットは #file:fm-er-diargram.md を参照する
+- フォーマットは #file:../../docs/external-design/format/fm-er-diargram.md を参照する

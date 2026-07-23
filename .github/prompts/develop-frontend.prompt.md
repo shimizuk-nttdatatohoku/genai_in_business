@@ -19,15 +19,15 @@ description: "ログイン画面（LGN-001）をReact/TypeScriptで実装する"
 
 以下の設計書に記載されている内容に必ず従う
 
-- #file:docs/requirement-definition/function-list.md
-- #file:docs/external-design/product/screen-design.md
+- #file:../../docs/requirement-definition/function-list.md
+- #file:../../docs/external-design/product/screen-design.md
 
 ## 3. 連携API（FastAPI / Lambda）
 
 以下の設計書を参考に、使用エンドポイント、リクエスト、レスポンスなどのAPI連携に必要な項目を実装する
 
-- API設計書（ #file:docs/external-design/product/api-catalog.md ）
-- インターフェース設計書（ #file:docs/external-design/product/interface-design.md ）
+- API設計書（ #file:../../docs/external-design/product/api-catalog.md ）
+- インターフェース設計書（ #file:../../docs/external-design/product/interface-design.md ）
 
 ## 4. 実装手順（この順で進める）
 
@@ -43,5 +43,5 @@ description: "ログイン画面（LGN-001）をReact/TypeScriptで実装する"
 
 ## 5. ルール
 
-frontend 実装時の共通ルールは #file:frontend.instructions.md を参照する  
-用語の定義は #file:glossary.md を参照する
+frontend 実装時の共通ルールは #file:../../.github/instructions/frontend.instructions.md を参照する  
+用語の定義は #file:../../docs/rules/common/glossary.md を参照する
