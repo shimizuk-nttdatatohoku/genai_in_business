@@ -7,12 +7,12 @@ description: "pytestのテストコードを修正・補完し、テストを実
 
 ## 目的
 
-既存の pytest コードを修正・補完し、テストを実施してカバレッジを出力する
+既存の pytest コードを修正・補完し、テストを実施して、pytest の標準出力と HTML レポートでカバレッジを確認できるようにする
 
 ## ステップ概要
 
 1. **pytest コード生成・修正** — 既存コードを分析し、不足テストを追加・修正する
-2. **試験実施・カバレッジ出力** — pytest を実行し、カバレッジを出力する
+2. **試験実施・カバレッジ出力** — pytest を実行し、標準出力の一覧と HTML レポートを出力する
 
 ## 1. 最初に読む参照ファイル
 
@@ -20,30 +20,30 @@ description: "pytestのテストコードを修正・補完し、テストを実
 
 ### 1.1 実装・試験ルール
 
-- #file:docs/rules/development/test-rule.md
-- #file:docs/rules/development/backend-rule.md
-- #file:docs/rules/common/error-rule.md
-- #file:docs/rules/common/naming-rule.md
-- #file:AGENTS.md
+- #file:../../docs/rules/development/test-rule.md
+- #file:../../docs/rules/development/backend-rule.md
+- #file:../../docs/rules/common/error-rule.md
+- #file:../../docs/rules/common/naming-rule.md
+- #file:../../AGENTS.md
 
 ### 1.2 API 設計・処理設計
 
-- #file:docs/external-design/product/api-catalog.md
-- #file:docs/external-design/product/interface-design.md
-- #file:docs/external-design/product/process-design/lgn-001-process-design.md
-- #file:docs/external-design/product/process-design/lgn-002-process-design.md
-- #file:docs/external-design/product/process-design/top-001-process-design.md
-- #file:docs/external-design/product/process-design/div-001-process-design.md
-- #file:docs/external-design/product/process-design/div-002-process-design.md
-- #file:docs/external-design/product/process-design/myp-001-process-design.md
+- #file:../../docs/external-design/product/api-catalog.md
+- #file:../../docs/external-design/product/interface-design.md
+- #file:../../docs/external-design/product/process-design/lgn-001-process-design.md
+- #file:../../docs/external-design/product/process-design/lgn-002-process-design.md
+- #file:../../docs/external-design/product/process-design/top-001-process-design.md
+- #file:../../docs/external-design/product/process-design/div-001-process-design.md
+- #file:../../docs/external-design/product/process-design/div-002-process-design.md
+- #file:../../docs/external-design/product/process-design/myp-001-process-design.md
 
 ### 1.3 既存テストコード
 
-- #file:backend/tests/conftest.py
-- #file:backend/tests/unit/test-auth-sessions.py
-- #file:backend/tests/unit/test-dividend-notices.py
-- #file:backend/tests/unit/test-health.py
-- #file:backend/tests/unit/test-users.py
+- #file:../../backend/tests/conftest.py
+- #file:../../backend/tests/unit/test_auth_sessions.py
+- #file:../../backend/tests/unit/test_dividend_notices.py
+- #file:../../backend/tests/unit/test_health.py
+- #file:../../backend/tests/unit/test_users.py
 
 ## 2. ステップ 1 — pytest コード生成・修正
 
@@ -105,18 +105,28 @@ description: "pytestのテストコードを修正・補完し、テストを実
 
 ### 実施手順
 
-以下のコマンドを実行する
+`pytest -v` の標準出力でテスト一覧を確認しつつ、`pytest-cov` でターミナル表示と HTML レポート出力を行う。
+結果はターミナルへ表示し、カバレッジ詳細は HTML レポートとして出力する。
 
 ```bash
 cd backend
-pytest tests/unit/ -v --tb=short --cov=app --cov-report=term-missing 2>&1
+pytest tests/unit/ -v --tb=short --cov=app --cov-branch --cov-report=term-missing --cov-report=html
 ```
 
 ### 結果の確認
 
-1. PASSED / FAILED / SKIPPED の件数をチャットに要約して表示する
-2. カバレッジが **80% 未満** のモジュールを一覧表示する
-3. FAILED のテストがある場合は、原因を簡潔に説明する
+1. ターミナルのテスト一覧から、各テストケースの実行結果を確認する
+2. ターミナルの coverage テーブルから、各プログラムファイルの C2 カバレッジを確認する
+3. `backend/htmlcov/index.html` を開き、HTML 形式のカバレッジレポートを確認する
+4. FAILED のテストがある場合のみ、ターミナル出力を根拠に原因を簡潔に整理する
+
+### 出力方針
+
+- 端末出力には、`pytest -v` によるテストケース一覧と `--cov-report=term-missing` による coverage テーブルを含める
+- HTML レポートは `backend/htmlcov/` 配下に出力する
+- C2 カバレッジは `--cov-branch` の結果を使用する
+- 不要なレポートファイル、設定ファイル、補助スクリプトは作成しない
+- frontend のテストや frontend 用レポートは対象外とする
 
 ---
 
@@ -125,3 +135,4 @@ pytest tests/unit/ -v --tb=short --cov=app --cov-report=term-missing 2>&1
 - 追加質問はせず、参照ファイルの優先順位に従って合理的な前提を置く
 - 個人情報（氏名・住所・口座番号）をログや出力に含めない
 - 既存テストを削除しない（修正・追記のみ）
+- frontendのテストは実行しない（backend のみ対象）

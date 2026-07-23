@@ -13,17 +13,17 @@ description: "機能一覧・インタフェース設計書をもとにAPI一覧
 
 ## インプット
 
-- 機能一覧（.md）: #file:docs/requirement-definition/function-list.md
-- インタフェース設計書（.md）: #file:docs/external-design/product/interface-design.md
+- 機能一覧（.md）: #file:../../docs/requirement-definition/function-list.md
+- インタフェース設計書（.md）: #file:../../docs/external-design/product/interface-design.md
 
 ## ルール（rules フォルダ）
 
 以下のルールを必ず遵守する（命名、用語、エラー表現、例外時の流れ）:
 
-- #file:naming-rule.md
-- #file:error-rule.md
-- #file:glossary.md
-- #file:api-design-rule.md  
+- #file:../../docs/rules/common/naming-rule.md
+- #file:../../docs/rules/common/error-rule.md
+- #file:../../docs/rules/common/glossary.md
+- #file:../../docs/rules/design/api-design-rule.md
 
 ## 作成対象（必須）
 
@@ -54,4 +54,4 @@ description: "機能一覧・インタフェース設計書をもとにAPI一覧
 
 - #createFile api-catalog.md の名前でファイルを作成し、`docs/external-design/product`フォルダ内に格納する
 - Markdown形式(.md)で出力する
-- フォーマットは #file:fm-api-catalog.md を参照する
+- フォーマットは #file:../../docs/external-design/format/fm-api-catalog.md を参照する

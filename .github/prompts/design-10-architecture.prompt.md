@@ -12,15 +12,15 @@ description: "要件定義書をもとにAWSサーバレス構成のアーキテ
 
 ## インプット（requirements フォルダ）
 
-- 要件定義書（.md）: #file:requirements.md
-- 機能一覧（.md）: #file:function-list.md
+- 要件定義書（.md）: #file:../../docs/requirement-definition/requirements.md
+- 機能一覧（.md）: #file:../../docs/requirement-definition/function-list.md
 
 ## ルール（rules フォルダ）
 
 以下のルールを必ず遵守する（命名、用語）:
 
-- #file:naming-rule.md
-- #file:glossary.md
+- #file:../../docs/rules/common/naming-rule.md
+- #file:../../docs/rules/common/glossary.md
 
 ## 作成対象（必須）
 要件定義書と機能一覧と、`docs/external-design/product` に格納されている設計内容が実現できる環境構成とする  
@@ -38,5 +38,5 @@ AWSを用いた最小限のサーバレス構成とする
 
 - #createFile architecture.md の名前でファイルを作成し、`docs/external-design/product` に格納する
 - Markdown形式(.md)で出力する
-- フォーマットは #file:fm-architecture.md を参照する
+- フォーマットは #file:../../docs/external-design/format/fm-architecture.md を参照する
 

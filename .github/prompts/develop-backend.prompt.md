@@ -21,47 +21,47 @@ React フロントエンドは先行実装済みであり、これから FastAPI
 
 #### 1.1 要件・機能・画面
 
-- #file:docs/requirement-definition/function-list.md
-- #file:docs/external-design/product/screen-design.md
+- #file:../../docs/requirement-definition/function-list.md
+- #file:../../docs/external-design/product/screen-design.md
 
 #### 1.2 API 仕様定義
 
-- #file:docs/external-design/product/interface-design.md
-- #file:docs/external-design/product/api-catalog.md
+- #file:../../docs/external-design/product/interface-design.md
+- #file:../../docs/external-design/product/api-catalog.md
 
 #### 1.3 業務フロー
 
-- #file:docs/external-design/product/process-design/lgn-001-process-design.md
-- #file:docs/external-design/product/process-design/lgn_002-process-design.md
-- #file:docs/external-design/product/process-design/top-001-process-design.md
-- #file:docs/external-design/product/process-design/div-001-process-design.md
-- #file:docs/external-design/product/process-design/div-002-process-design.md
-- #file:docs/external-design/product/process-design/myp-001-process-design.md
+- #file:../../docs/external-design/product/process-design/lgn-001-process-design.md
+- #file:../../docs/external-design/product/process-design/lgn_002-process-design.md
+- #file:../../docs/external-design/product/process-design/top-001-process-design.md
+- #file:../../docs/external-design/product/process-design/div-001-process-design.md
+- #file:../../docs/external-design/product/process-design/div-002-process-design.md
+- #file:../../docs/external-design/product/process-design/myp-001-process-design.md
 
 #### 1.4 データ設計
 
-- #file:docs/external-design/product/database-design.md
-- #file:docs/external-design/product/er-diargram.md
-- #file:docs/external-design/product/sequence-diagram.md
+- #file:../../docs/external-design/product/database-design.md
+- #file:../../docs/external-design/product/er-diargram.md
+- #file:../../docs/external-design/product/sequence-diagram.md
 
 #### 1.5 実装・試験ルール
 
-- #file:docs/rules/development/backend-rule.md
-- #file:docs/rules/development/serverless-rule.md
-- #file:docs/rules/development/test-rule.md
-- #file:docs/rules/common/error-rule.md
-- #file:docs/rules/common/naming-rule.md
-- #file:docs/rules/common/glossary.md
-- #file:docs/rules/common/implementation-rule.md
-- #file:AGENTS.md
+- #file:../../docs/rules/development/backend-rule.md
+- #file:../../docs/rules/development/serverless-rule.md
+- #file:../../docs/rules/development/test-rule.md
+- #file:../../docs/rules/common/error-rule.md
+- #file:../../docs/rules/common/naming-rule.md
+- #file:../../docs/rules/common/glossary.md
+- #file:../../docs/rules/common/implementation-rule.md
+- #file:../../AGENTS.md
 
 #### 1.6 補助参照
 
-- #file:docs/requirement-definition/requirements.md
-- #file:docs/external-design/product/architecture.md
-- #file:shared/types/user.ts
-- #file:backend/requirements.txt
-- #file:backend/requirements-dev.txt
+- #file:../../docs/requirement-definition/requirements.md
+- #file:../../docs/external-design/product/architecture.md
+- #file:../../shared/types/user.ts
+- #file:../../backend/requirements.txt
+- #file:../../backend/requirements-dev.txt
 
 ### 2. 参照ファイルの優先順位
 

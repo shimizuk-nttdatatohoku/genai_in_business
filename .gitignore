@@ -4,3 +4,6 @@ node_modules/
 vendor/
 .env
 __pycache__/
+coverage/
+*.log
+htmlcov/

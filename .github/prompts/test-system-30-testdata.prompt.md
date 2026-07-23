@@ -16,21 +16,23 @@ E2Eテスト用のDynamoDB初期投入データを生成してください
   - #file:frontend/tests/e2e
 
 - DynamoDBテーブル設計書：
-  - #file:docs/external-design/product/database-design.md
-  - #file:docs/external-design/product/er-diargram.md
-  - #file:backend  
+  - #file:../../docs/external-design/product/database-design.md
+  - #file:../../docs/external-design/product/er-diargram.md
+
+- 実装コード
+  - #file:../../backend/
   **セッション管理用テーブルは設計書に記載が無いため、実装を参照する**
 
 - API設計書：
-  - #file:docs/external-design/product/api-catalog.md
-  - #file:docs/external-design/product/interface-design.md
+  - #file:../../docs/external-design/product/api-catalog.md
+  - #file:../../docs/external-design/product/interface-design.md
 
 - 規約/ルール
-  - #file:docs/rules/development/test-rule.md
-  - #file:docs/rules/development/backend-rule.md
-  - #file:docs/rules/common/error-rule.md
-  - #file:docs/rules/common/naming-rule.md
-  - #file:AGENTS.md
+  - #file:../../docs/rules/development/test-rule.md
+  - #file:../../docs/rules/development/backend-rule.md
+  - #file:../../docs/rules/common/error-rule.md
+  - #file:../../docs/rules/common/naming-rule.md
+  - #file:../../AGENTS.md
 
 ## 出力形式
 

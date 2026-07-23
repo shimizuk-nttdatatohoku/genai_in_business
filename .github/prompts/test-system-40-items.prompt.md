@@ -20,26 +20,26 @@ description: "Playwrightテストコードを分析してシステムテスト�
 
 ### 1.1 実装・テストルール
 
-- #file:docs/rules/development/test-rule.md
-- #file:docs/rules/development/frontend-rule.md
-- #file:docs/rules/common/error-rule.md
-- #file:docs/rules/common/naming-rule.md
-- #file:AGENTS.md
+- #file:../../docs/rules/development/test-rule.md
+- #file:../../docs/rules/development/frontend-rule.md
+- #file:../../docs/rules/common/error-rule.md
+- #file:../../docs/rules/common/naming-rule.md
+- #file:../../AGENTS.md
 
 ### 1.2 画面・設計資料
 
-- #file:docs/external-design/product/screen-design.md
-- #file:docs/external-design/product/interface-design.md
-- #file:docs/external-design/product/api-catalog.md
+- #file:../../docs/external-design/product/screen-design.md
+- #file:../../docs/external-design/product/interface-design.md
+- #file:../../docs/external-design/product/api-catalog.md
 
 ### 1.3 E2E テストコード・設定
 
-- #file:frontend/playwright.config.ts
-- #file:frontend/tests/e2e/login.spec.ts
-- #file:frontend/tests/e2e/top.spec.ts
-- #file:frontend/tests/e2e/dividend-notice.spec.ts
-- #file:frontend/tests/e2e/my-page.spec.ts
-- #file:frontend/tests/e2e/smoke.spec.ts
+- #file:../../frontend/playwright.config.ts
+- #file:../../frontend/tests/e2e/login.spec.ts
+- #file:../../frontend/tests/e2e/top.spec.ts
+- #file:../../frontend/tests/e2e/dividend-notice.spec.ts
+- #file:../../frontend/tests/e2e/my-page.spec.ts
+- #file:../../frontend/tests/e2e/smoke.spec.ts
 
 ## 2. テストコード確認
 

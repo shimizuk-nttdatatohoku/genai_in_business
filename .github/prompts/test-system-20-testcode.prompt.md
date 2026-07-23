@@ -13,29 +13,29 @@ description: "観点表・設計書をもとにPlaywrightのE2Eテストコー�
 ## 参照ドキュメント
 
 - テスト観点表：
-  - #file:docs/tests/system-test/items/systemtest-testview.md
+  - #file:../../docs/tests/system-test/items/systemtest-testview.md
 - 画面設計書：
-  - #file:docs/external-design/product/screen-design.md
+  - #file:../../docs/external-design/product/screen-design.md
 - 基本設計書：
-  - #file:docs/external-design/product/sequence-diagram.md
+  - #file:../../docs/external-design/product/sequence-diagram.md
 - 機能設計書：
-  - #file:docs/external-design/product/process-design/process-design
+  - #file:../../docs/external-design/product/process-design/process-design
 - API設計
-  - #file:docs/external-design/product/api-catalog.md
-  - #file:docs/external-design/product/interface-design.md
+  - #file:../../docs/external-design/product/api-catalog.md
+  - #file:../../docs/external-design/product/interface-design.md
 - データベース設計
-  - #file:docs/external-design/product/database-design.md
-  - #file:docs/external-design/product/er-diargram.md
+  - #file:../../docs/external-design/product/database-design.md
+  - #file:../../docs/external-design/product/er-diargram.md
 - 実装コード（対象画面）：
-  - #file:frontend/src/pages
+  - #file:../../frontend/src/pages
 - playwright.config.ts：
-  - #file:frontend/playwright.config.ts
+  - #file:../../frontend/playwright.config.ts
 - 規約/ルール
-  - #file:docs/rules/development/test-rule.md
-  - #file:docs/rules/development/backend-rule.md
-  - #file:docs/rules/common/error-rule.md
-  - #file:docs/rules/common/naming-rule.md
-  - #file:AGENTS.md
+  - #file:../../docs/rules/development/test-rule.md
+  - #file:../../docs/rules/development/backend-rule.md
+  - #file:../../docs/rules/common/error-rule.md
+  - #file:../../docs/rules/common/naming-rule.md
+  - #file:../../AGENTS.md
 
 ## システム構成（固定）
 

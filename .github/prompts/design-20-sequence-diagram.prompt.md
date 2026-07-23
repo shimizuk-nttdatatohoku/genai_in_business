@@ -14,18 +14,18 @@ description: "要件定義書・業務フロー画像をもとにシーケンス
 ## インプット（requirements フォルダ）
 
 - 業務フロー図（画像 .png） **pngはプロンプトを実行するユーザがCopilot Chatに直接添付します。添付された画像内容（登場人物・手順・分岐・例外）を読み取って反映してください**
-- 要件定義書（.md）: #file:requirements.md
-- 機能一覧（.md）: #file:function-list.md
+- 要件定義書（.md）: #file:../../docs/requirement-definition/requirements.md
+- 機能一覧（.md）: #file:../../docs/requirement-definition/function-list.md
 
 
 ## ルール（rules フォルダ）
 
 以下のルールを必ず遵守する（命名、用語、エラー表現、例外時の流れ）:
 
-- #file:naming-rule.md
-- #file:error-rule.md
-- #file:glossary.md
-- #file:screen-design-rule.md
+- #file:../../docs/rules/common/naming-rule.md
+- #file:../../docs/rules/common/error-rule.md
+- #file:../../docs/rules/common/glossary.md
+- #file:../../docs/rules/design/screen-design-rule.md
 
 ## 作成対象
 
@@ -38,4 +38,4 @@ description: "要件定義書・業務フロー画像をもとにシーケンス
 
 - #createFile sequence-diagram.md の名前でファイルを作成し `docs/external-design/product` に格納する
 - Markdown形式(.md)で出力する
-- フォーマットは #file:fm-sequence-diagram.md を参照する
+- フォーマットは #file:../../docs/external-design/format/fm-sequence-diagram.md を参照する
